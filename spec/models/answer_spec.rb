@@ -6,13 +6,11 @@ RSpec.describe Answer, type: :model do
 
   it do
     should validate_length_of(:body).
-      is_at_least(20).
-      on(:create)
+      is_at_least(20)
   end
 
   it do
-    should validate_length_of(:body).
-      is_at_least(20).
-      on(:update)
+    should belong_to(:question).
+      with_foreign_key('question_id')
   end
 end
