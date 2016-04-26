@@ -9,4 +9,10 @@ RSpec.describe Answer, type: :model do
       is_at_least(20).
       on(:create)
   end
+
+  it do
+    should validate_length_of(:body).
+      is_at_least(20).
+      on(:update)
+  end
 end
