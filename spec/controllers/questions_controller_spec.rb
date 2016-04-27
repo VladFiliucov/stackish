@@ -28,4 +28,17 @@ RSpec.describe QuestionsController, type: :controller do
       expect(response).to render_template(:show)
     end
   end
+
+  describe 'GET #new' do
+
+    before { get :new }
+
+    it 'assigns a new Question to @question' do
+      expect(assigns(:question)).to be_a_new(Question)
+    end
+
+    it 'renders template new' do
+      expect(response).to render_template(:new)
+    end
+  end
 end
