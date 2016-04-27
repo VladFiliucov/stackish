@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :question do
-    sequence(:title) {|n| "Question number #{n}"}
+    title "New Question"
     body "This is a realy long description beacuse it has to be 20 chars long."
   end
 

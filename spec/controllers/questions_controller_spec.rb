@@ -77,4 +77,37 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+  describe 'PATCH #update' do
+    context 'with valid attributes' do
+      it 'assigns the requested question to @question' do
+        patch :update, id: question, question: attributes_for(:question)
+        expect(assigns(:question)).to eq(question)
+      end
+
+      it 'cahnges question attributes' do
+        patch :update, id: question, question: { title: "new question", body: "body must be at least 20 chars long omg!!" }
+        question.reload
+        expect(question.title).to eq("new question")
+      end
+
+      it 'redirects to the updated question' do
+        patch :update, id: question, question: attributes_for(:question)
+        expect(response).to redirect_to(question)
+      end
+    end
+
+    context 'with invalid attributes' do
+      before {  patch :update, id: question, question: {title: "another title", body: nil } }
+
+      it 'does not update question attributes' do
+        question.reload
+        expect(question.title).to eq("New Question")
+      end
+
+      it 'renders #edit' do
+        expect(response).to render_template(:edit)
+      end
+    end
+  end
 end
