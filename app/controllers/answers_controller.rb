@@ -1,8 +1,12 @@
 class AnswersController < ApplicationController
-  before_action :get_question, only: [:index]
+  before_action :get_question, only: [:index, :new]
 
   def index
     @answers = @question.answers
+  end
+
+  def new
+    @answer = @question.answers.new
   end
 
   private
