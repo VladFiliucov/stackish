@@ -4,10 +4,14 @@ RSpec.describe AnswersController, type: :controller do
   let(:question) {create(:question)}
 
   describe 'GET #index' do
-    it 'populates array of answers for a question' do
-      expect( create(:question_with_answers).answers.count ).to eq(3)
+    xit 'populates array of answers for a question' do
+      answer1 =  create(:answer)
+      answer2 =  create(:answer)
+      get :index, question_id: answer2.question
+      expect(assigns(:answers)).to match_array([answer1, answer2])
     end
   end
+
 
   describe 'GET #new' do
     before { get :new, question_id: question.id}
@@ -19,6 +23,12 @@ RSpec.describe AnswersController, type: :controller do
     it 'renders new template' do
       expect(response).to render_template(:new)
     end
+  end
+
+  describe 'GET #show' do
+    before {get :show, question_id: question, id: answer}
+
+    xit 'assigns requested answer to @answer'
   end
 
   describe 'POST #create' do
@@ -37,7 +47,7 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with invalid attributes' do
       it 'does not save the answer' do
-        expect {post :create, question_id: question, answer: attributes_for(:blank_answer)}
+        expect {post :create, question_id: question, answer: attributes_for(:blank_answer)}.to_not change(Answer, :count)
       end
 
       it 're-renders new template' do
