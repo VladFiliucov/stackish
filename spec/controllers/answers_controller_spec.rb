@@ -4,10 +4,11 @@ RSpec.describe AnswersController, type: :controller do
   let(:question) {create(:question)}
 
   describe 'GET #index' do
-    xit 'populates array of answers for a question' do
-      answer1 =  create(:answer)
-      answer2 =  create(:answer)
-      get :index, question_id: answer2.question
+    it 'populates array of answers for a question' do
+      question = create(:question)
+      answer1 =  create(:answer, question: question)
+      answer2 =  create(:answer, question: question)
+      get :index, question_id: question
       expect(assigns(:answers)).to match_array([answer1, answer2])
     end
   end
