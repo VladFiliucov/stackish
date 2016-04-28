@@ -12,7 +12,7 @@ feature 'User sign in', %q{
     visit new_user_session_path
     fill_in 'Email', with: 'registered@user.com'
     fill_in 'Password', with: 'supersecret'
-    click_on 'Sign In'
+    click_on 'Log in'
 
     expect(page).to have_content('Signed in successfully')
     expect(current_path).to eq(root_path)
@@ -22,7 +22,7 @@ feature 'User sign in', %q{
     visit new_user_session_path
     fill_in 'Email', with: 'wrong@user.com'
     fill_in 'Password', with: 'nonexistinguser'
-    click_on 'Sign In'
+    click_on 'Log in'
     
     expect(page).to have_content('Invalid email or password')
     expect(current_path).to eq(new_user_session_path)
