@@ -1,1 +1,20 @@
-p= link_to 'Ask question', new_question_path
+h1[style="text-align: center;"]
+  | All Questions
+.main-container.center
+  .research-table.col-md-10.col-md-offset-1
+    table.table.table-hover.table-striped.table-bordered
+      thead
+        tr
+          th
+            | Title
+          th
+            | Author
+      tbody
+        - @questions.each do |q|
+          tr
+            td
+              = link_to q.title, question_path(q)
+            td
+              = q.user.email
+  div
+    = link_to "Ask Question", new_question_path, class: "btn btn-primary btn-lg active"

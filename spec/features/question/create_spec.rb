@@ -12,7 +12,7 @@ feature 'create question', %{
     sign_in(user)
 
     visit '/questions'
-    click_on 'Ask question'
+    click_on 'Ask Question'
     fill_in 'Title', with: 'Super question'
     fill_in 'Body', with: 'Bloody marvelous content'
     click_on 'Ask'
@@ -22,7 +22,7 @@ feature 'create question', %{
 
   scenario 'Non-authenticated user tries to create question' do
     visit '/questions'
-    click_on 'Ask question'
+    click_on 'Ask Question'
 
     expect(page).to have_content 'sign in or sign up'
   end
