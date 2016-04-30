@@ -10,11 +10,11 @@ class QuestionsController < ApplicationController
   end
 
   def new
-    @question = Question.new
+    @question = current_user.questions.new
   end
 
   def create
-    @question = Question.create(question_params)
+    @question = current_user.questions.create(question_params)
     if @question.save
       redirect_to @question
       flash[:notice] = "Your question was successfully posted."
