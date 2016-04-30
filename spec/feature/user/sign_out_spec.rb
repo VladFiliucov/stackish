@@ -8,9 +8,9 @@ feature "Signing out" do
     sign_in(user)
     visit(root_path)
 
-    expect(page).to have_content("Sign Out")
-    click_link("Sign Out")
-    expect(page).to_not have_content("Sign Out")
-    expect(page).to have_content("Sign In")
+    expect(page).to have_content("Logout")
+    click_link("Logout")
+    expect(page).to_not have_content("Logout")
+    expect(page).to have_content("Login")
   end
 end
