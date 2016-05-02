@@ -4,3 +4,11 @@
   .fields.row
     h3
       = @question.body.html_safe
+
+- @question.answers.each do |answer|
+  ul
+    li = answer.body
+
+= simple_form_for [@question, @answer] do |f|
+  = f.input :body, label: 'My Answer'
+  = f.submit 'Answer'

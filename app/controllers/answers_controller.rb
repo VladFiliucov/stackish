@@ -5,20 +5,24 @@ class AnswersController < ApplicationController
     @answers = @question.answers
   end
 
-  # def show
-    # @answer = @question.answers.find(params[:id])
-  # end
-
   def new
     @answer = @question.answers.new
   end
 
   def create
-    @answer = @question.answers.new(answer_params)
-    if @answer.save
-      redirect_to @question
+    if current_user
+      @answer = @question.answers.new(answer_params)
+      @answer.user = current_user
+      if @answer.save
+        redirect_to @question
+        flash[:notice] = 'Your answer was successfully posted.'
+      else
+        redirect_to @question
+        flash[:notice] = ''
+      end
     else
-      render :new
+      redirect_to new_user_session_path
+      flash[:notice] = 'sign in or sign up'
     end
   end
 
