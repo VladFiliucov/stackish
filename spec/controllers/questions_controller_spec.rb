@@ -124,14 +124,27 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'DELETE #destroy' do
     login_user
 
-    it 'deletes question' do
-      question
-      expect {delete :destroy, id: question}.to change(Question, :count).by(-1)
+    context 'author' do
+      let(:question) { create(:question, user: @user) }
+
+      it 'deletes question' do
+        question
+        expect {delete :destroy, id: question}.to change(Question, :count).by(-1)
+      end
+
+      it 'redirects to index template' do
+        delete :destroy, id: question
+        expect(response).to redirect_to(questions_path)
+      end
     end
 
-    it 'redirects to index template' do
-      delete :destroy, id: question
-      expect(response).to redirect_to(questions_path)
+    context 'not author' do
+      let(:owner) { create(:user)}
+      let(:question) { create(:question, user: owner)}
+
+      it 'does not delete question' do
+        expect { delete :destroy, id: question}.to_not change(Question, :count)
+      end
     end
   end
 end
