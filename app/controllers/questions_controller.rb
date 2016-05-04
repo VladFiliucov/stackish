@@ -53,10 +53,6 @@ class QuestionsController < ApplicationController
   end
 
   def check_ownership
-    if current_user && current_user.author?(@question)
-      repsond_to do |format|
-        format.html {redirect_to @question}
-      end
-    end
+    current_user.author?(@question)
   end
 end
