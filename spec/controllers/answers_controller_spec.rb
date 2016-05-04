@@ -5,12 +5,12 @@ RSpec.describe AnswersController, type: :controller do
   let(:question) {create(:question, user: user)}
 
   describe 'GET #index' do
+    let(:question) { create(:question) }
+    let(:user_answers) { create_list(:answer, 2, question: question) }
+
     it 'populates array of answers for a question' do
-      question = create(:question)
-      answer1 =  create(:answer, question: question, user: user)
-      answer2 =  create(:answer, question: question, user: user)
       get :index, question_id: question
-      expect(assigns(:answers)).to match_array([answer1, answer2])
+      expect(assigns(:answers)).to match_array(user_answers)
     end
   end
 
@@ -18,7 +18,7 @@ RSpec.describe AnswersController, type: :controller do
   describe 'Non-authenticated user' do
     describe 'POST #create' do
       it 'redirects to sign up page' do
-        post :create, question_id: question, user: nil, answer: attributes_for(:answer)
+        post :create, question_id: question, answer: attributes_for(:answer)
         expect(response).to redirect_to new_user_session_path
       end
     end
@@ -46,6 +46,12 @@ RSpec.describe AnswersController, type: :controller do
           }.to change(question.answers, :count).by(1)
         end
 
+        it 'adds new answer to cerrent user answers' do
+          expect {
+            post :create, question_id: question, user: user, answer: attributes_for(:answer)
+          }.to change(@user.answers, :count).by(1)
+        end
+
         it 'redirects to tickets show view' do
           post :create, question_id: question, answer: attributes_for(:answer)
           expect(response).to redirect_to question_path(question)
@@ -69,12 +75,10 @@ RSpec.describe AnswersController, type: :controller do
     login_user
 
     context 'author' do
-      let(:question) { create(:question) }
-      let(:answer) { create(:answer, question: question, user: @user) }
+      let!(:question) { create(:question) }
+      let!(:answer) { create(:answer, question: question, user: @user) }
 
       it 'deletes question' do
-        question
-        answer
         expect {delete :destroy, question_id: question, id: answer}.to change(Answer, :count).by(-1)
       end
 
@@ -91,7 +95,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'does not delete answer' do
         question = create(:question)
-        answer = create(:answer, question: question, body: "123123123123123123123123123")
+        answer = create(:answer, question: question)
         expect { delete :destroy, question_id: question, id: answer }.to_not change(Answer, :count)
       end
     end

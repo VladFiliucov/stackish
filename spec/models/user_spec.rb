@@ -11,12 +11,12 @@ RSpec.describe User do
     let(:not_owner) { create(:user)}
 
     it "owner" do
-      entry = create(:answer, body: "12345667899023423423423423423423", question_id: 1, user: user)
-      expect(user.author?(entry)).to be true
+      entry = create(:answer, question_id: 1, user: user)
+      expect(user).to be_author(entry)
     end
 
     it "not owner" do
-      unauthorized_entry = create(:question, title: "A really good question", body: "12312312312312312312312312312", user: not_owner)
+      unauthorized_entry = create(:question, title: "A really good question", user: not_owner)
       expect(user.author?(unauthorized_entry)).to be false
     end
   end

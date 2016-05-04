@@ -6,18 +6,27 @@ feature 'delete answer', %{
   I want to be able to delete my answer
 } do
 
-  given(:user) {create(:user)}
-  given(:question) {create(:question)}
+  given!(:owner) {create(:user)}
+  given!(:question) {create(:question)}
+  given!(:answer) {create(:answer, question: question, user: owner, body: "This answer soon will be gone.")}
+  given!(:user) {create(:user)}
 
   scenario 'Author deletes his answer' do
-    sign_in(user)
+    sign_in(owner)
 
     visit question_path(question)
-    fill_in 'My Answer', with: "123123123123123123123123123123123123123"
-    click_on 'Answer'
-    expect(page).to have_content 'was successfully posted'
+    expect(page).to have_content  "This answer soon will be gone."
     click_on 'Delete My Answer'
 
     expect(page).to have_content 'has been deleted'
+    expect(page).to_not have_content "This answer soon will be gone."
+  end
+
+  scenario 'User without own answers can not see delete button' do
+    sign_in(user)
+
+    visit question_path(question)
+    expect(page).to have_content  "This answer soon will be gone."
+    expect(page).to_not have_content 'Delete My Answer'
   end
 end
