@@ -59,7 +59,7 @@ RSpec.describe AnswersController, type: :controller do
 
         it 're-renders new template' do
           post :create, question_id: question, answer: attributes_for(:blank_answer)
-          expect(response).to redirect_to question_path(question)
+          expect(response).to render_template 'questions/show'
         end
       end
     end

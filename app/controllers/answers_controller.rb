@@ -1,4 +1,5 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :get_question, only: [:index, :new, :create, :show, :destroy]
   before_action :get_answer, only: [:destroy]
   before_action :check_ownership, only: [:destroy]
@@ -12,19 +13,12 @@ class AnswersController < ApplicationController
   end
 
   def create
-    if current_user
-      @answer = @question.answers.new(answer_params)
-      @answer.user = current_user
-      if @answer.save
-        redirect_to @question
-        flash[:notice] = 'Your answer was successfully posted.'
-      else
-        redirect_to @question
-        flash[:notice] = ''
-      end
+    @answer = @question.answers.new(answer_params)
+    @answer.user = current_user
+    if @answer.save
+      redirect_to @question, notice:  'Your answer was successfully posted.'
     else
-      redirect_to new_user_session_path
-      flash[:notice] = 'sign in or sign up'
+      render 'questions/show'
     end
   end
 
@@ -51,7 +45,7 @@ class AnswersController < ApplicationController
   def check_ownership
     unless current_user && current_user.author?(@answer)
       respond_to do |format|
-        format.html {redirect_to @question}
+        format.html {redirect_to @question, notice: 'Not your entry'}
       end
     end
   end
