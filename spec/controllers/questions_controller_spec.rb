@@ -27,9 +27,14 @@ RSpec.describe QuestionsController, type: :controller do
     it 'render show template' do
       expect(response).to render_template(:show)
     end
+
+    it 'sets new answer' do
+      expect(assigns(:answer)).to be_a_new(Answer)
+    end
   end
 
   describe 'GET #new' do
+    login_user
 
     before { get :new }
 
@@ -43,6 +48,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #edit' do
+    login_user
+
     before { get :edit, id: question }
 
     it 'assigns requested question to @question' do
@@ -55,9 +62,10 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
-    context 'with valida attributes' do
+    login_user
+    context 'with valid attributes' do
       it 'saves new question to the database' do
-        expect {post :create, question: attributes_for(:question)}.to change(Question, :count).by(1)
+        expect {post :create, question: attributes_for(:question)}.to change(@user.questions, :count).by(1)
       end
 
       it 'redirects to show view' do
@@ -79,6 +87,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
+    login_user
+
     context 'with valid attributes' do
       it 'assigns the requested question to @question' do
         patch :update, id: question, question: attributes_for(:question)
@@ -112,14 +122,28 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    it 'deletes question' do
-      question
-      expect {delete :destroy, id: question}.to change(Question, :count).by(-1)
+    login_user
+
+    context 'author' do
+      let!(:question) { create(:question, user: @user) }
+
+      it 'deletes question' do
+        expect {delete :destroy, id: question}.to change(Question, :count).by(-1)
+      end
+
+      it 'redirects to index template' do
+        delete :destroy, id: question
+        expect(response).to redirect_to(questions_path)
+      end
     end
 
-    it 'redirects to index template' do
-      delete :destroy, id: question
-      expect(response).to redirect_to(questions_path)
+    context 'not author' do
+      let(:owner) { create(:user)}
+      let(:question) { create(:question, user: owner)}
+
+      it 'does not delete question' do
+        expect { delete :destroy, id: question}.to_not change(Question, :count)
+      end
     end
   end
 end

@@ -1,25 +1,23 @@
 class AnswersController < ApplicationController
-  before_action :get_question, only: [:index, :new, :create, :show]
-
-  def index
-    @answers = @question.answers
-  end
-
-  # def show
-    # @answer = @question.answers.find(params[:id])
-  # end
-
-  def new
-    @answer = @question.answers.new
-  end
+  before_action :authenticate_user!
+  before_action :get_question, only: [:index, :new, :create, :show, :destroy]
+  before_action :get_answer, only: [:destroy]
+  before_action :check_ownership, only: [:destroy]
 
   def create
     @answer = @question.answers.new(answer_params)
+    @answer.user = current_user
     if @answer.save
-      redirect_to @question
+      redirect_to @question, notice:  'Your answer was successfully posted.'
     else
-      render :new
+      render 'questions/show'
     end
+  end
+
+  def destroy
+    @answer.destroy
+    redirect_to question_path(@question)
+    flash[:notice] = "Answer has been deleted"
   end
 
   private
@@ -28,7 +26,19 @@ class AnswersController < ApplicationController
     @question = Question.find(params[:question_id])
   end
 
+  def get_answer
+    @answer = @question.answers.find(params[:id])
+  end
+
   def answer_params
     params.require(:answer).permit(:body)
+  end
+
+  def check_ownership
+    unless current_user.author?(@answer)
+      respond_to do |format|
+        format.html {redirect_to @question, notice: 'Not your entry'}
+      end
+    end
   end
 end
