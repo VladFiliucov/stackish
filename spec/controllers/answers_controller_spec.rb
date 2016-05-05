@@ -4,17 +4,6 @@ RSpec.describe AnswersController, type: :controller do
   let(:user) {create(:user)}
   let(:question) {create(:question, user: user)}
 
-  describe 'GET #index' do
-    let(:question) { create(:question) }
-    let(:user_answers) { create_list(:answer, 2, question: question) }
-
-    it 'populates array of answers for a question' do
-      get :index, question_id: question
-      expect(assigns(:answers)).to match_array(user_answers)
-    end
-  end
-
-
   describe 'Non-authenticated user' do
     describe 'POST #create' do
       it 'redirects to sign up page' do

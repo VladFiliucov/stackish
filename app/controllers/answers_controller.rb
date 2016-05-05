@@ -1,12 +1,8 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!
   before_action :get_question, only: [:index, :new, :create, :show, :destroy]
   before_action :get_answer, only: [:destroy]
   before_action :check_ownership, only: [:destroy]
-
-  def index
-    @answers = @question.answers
-  end
 
   def new
     @answer = @question.answers.new
@@ -43,7 +39,7 @@ class AnswersController < ApplicationController
   end
 
   def check_ownership
-    unless current_user && current_user.author?(@answer)
+    unless current_user.author?(@answer)
       respond_to do |format|
         format.html {redirect_to @question, notice: 'Not your entry'}
       end
