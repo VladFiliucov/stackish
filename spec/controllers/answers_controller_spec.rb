@@ -15,17 +15,6 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'Logged in user' do
     login_user
-    describe 'GET #new' do
-      before { get :new, question_id: question.id}
-
-      it 'assigns new answer to @answer' do
-        expect(assigns(:answer)).to be_a_new(Answer)
-      end
-
-      it 'renders new template' do
-        expect(response).to render_template(:new)
-      end
-    end
 
     describe 'POST #create' do
       context 'with valid attributes' do
