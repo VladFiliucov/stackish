@@ -7,7 +7,7 @@ feature 'delete question', %{
 } do
 
   given!(:user) {create(:user)}
-  given!(:question) {create(:question, user: user)}
+  given!(:question) {create(:question, user: user, body: "This content should not be here anymore", title: "Soon to be gone")}
   given(:not_owner) {create(:user)}
 
   scenario 'Author deletes his question' do
@@ -17,6 +17,8 @@ feature 'delete question', %{
     click_on 'Delete Question'
 
     expect(page).to have_content 'has been deleted'
+    expect(page).to_not have_content 'Soon to be gone' 
+    expect(page).to_not have_content 'This content should not be here anymore' 
   end
 
   scenario '!owner can not see delete question button' do

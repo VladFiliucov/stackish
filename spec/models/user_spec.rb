@@ -17,7 +17,7 @@ RSpec.describe User do
 
     it "not owner" do
       unauthorized_entry = create(:question, title: "A really good question", user: not_owner)
-      expect(user.author?(unauthorized_entry)).to be false
+      expect(user).to_not be_author(unauthorized_entry)
     end
   end
 end

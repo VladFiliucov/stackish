@@ -13,6 +13,6 @@ feature "Registration" do
     fill_in "Password confirmation", with: "SuperPassword123"
     click_button "Sign up"
 
-    expect(User.count).to eq(1)
+    expect(page).to have_content "Logout"
   end
 end
