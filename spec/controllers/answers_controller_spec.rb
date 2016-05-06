@@ -7,8 +7,8 @@ RSpec.describe AnswersController, type: :controller do
   describe 'Non-authenticated user' do
     describe 'POST #create' do
       it 'redirects to sign up page' do
-        post :create, question_id: question, answer: attributes_for(:answer)
-        expect(response).to redirect_to new_user_session_path
+        post :create, question_id: question, format: :js, answer: attributes_for(:answer)
+        expect(response.status).to eq(401)
       end
     end
   end
@@ -20,30 +20,30 @@ RSpec.describe AnswersController, type: :controller do
       context 'with valid attributes' do
         it 'saves new answer to the database' do
           expect {
-            post :create, question_id: question, user: user, answer: attributes_for(:answer)
+            post :create, question_id: question, user: user, answer: attributes_for(:answer), format: :js
           }.to change(question.answers, :count).by(1)
         end
 
         it 'adds new answer to cerrent user answers' do
           expect {
-            post :create, question_id: question, user: user, answer: attributes_for(:answer)
+            post :create, question_id: question, user: user, answer: attributes_for(:answer), format: :js
           }.to change(@user.answers, :count).by(1)
         end
 
-        it 'redirects to tickets show view' do
-          post :create, question_id: question, answer: attributes_for(:answer)
-          expect(response).to redirect_to question_path(question)
+        it 'render create template'  do
+          post :create, question_id: question, answer: attributes_for(:answer), format: :js
+          expect(response).to render_template :create
         end
       end
 
       context 'with invalid attributes' do
         it 'does not save the answer' do
-          expect {post :create, question_id: question, answer: attributes_for(:blank_answer)}.to_not change(Answer, :count)
+          expect {post :create, question_id: question, answer: attributes_for(:blank_answer), format: :js}.to_not change(Answer, :count)
         end
 
-        it 're-renders new template' do
-          post :create, question_id: question, answer: attributes_for(:blank_answer)
-          expect(response).to render_template 'questions/show'
+        it 're-renders create template' do
+          post :create, question_id: question, answer: attributes_for(:blank_answer), format: :js
+          expect(response).to render_template :create
         end
       end
     end

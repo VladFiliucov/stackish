@@ -1,0 +1,4 @@
+-@question.answers.each do |answer|
+  p= answer.body
+  - if current_user && current_user.author?(answer)
+    = button_to 'Delete My Answer', [@question, answer], method: :delete, class: "btn btn-danger btn-sm"
