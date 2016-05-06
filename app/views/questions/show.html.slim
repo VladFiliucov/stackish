@@ -8,7 +8,8 @@
       = @question.body.html_safe
 
   .answers
-    = render partial: "answers"
+    = render @question.answers
+    = render @answer
 
 = simple_form_for [@question, @answer], remote: true do |f|
   = f.input :body, label: 'My Answer'

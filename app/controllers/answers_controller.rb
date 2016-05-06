@@ -3,7 +3,6 @@ class AnswersController < ApplicationController
   before_action :get_question, only: [:index, :new, :create, :show, :destroy]
   before_action :get_answer, only: [:destroy]
   before_action :check_ownership, only: [:destroy]
-  after_action  :handle_ajax, only: [:create]
 
   def create
     @answer = @question.answers.new(answer_params)
@@ -30,12 +29,6 @@ class AnswersController < ApplicationController
 
   def answer_params
     params.require(:answer).permit(:body)
-  end
-
-  def handle_ajax
-    if request.xhr?
-      flash.discard
-    end
   end
 
   def check_ownership
