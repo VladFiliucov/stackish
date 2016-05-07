@@ -1,5 +1,5 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, only: [:new, :create]
   before_action :get_question, only: [:index, :new, :create, :show, :destroy]
   before_action :get_answer, only: [:destroy]
   before_action :check_ownership, only: [:destroy]
@@ -7,11 +7,8 @@ class AnswersController < ApplicationController
   def create
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
-    if @answer.save
-      redirect_to @question, notice:  'Your answer was successfully posted.'
-    else
-      render 'questions/show'
-    end
+    @answer.save
+    flash.now[:notice] =  'Your answer was successfully posted.'
   end
 
   def destroy

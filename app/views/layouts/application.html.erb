@@ -8,7 +8,11 @@
 </head>
 <body>
   <%= render "layouts/navbar" %>
-  <p class="notice"><%= notice %></p>
+  <div id="flash">
+    <% if notice.present? %>
+      <%= render partial: "shared/notice_line" %>
+    <% end %>
+  </div>
   <p class="alert"><%= alert %></p>
   <%= yield %>
 
