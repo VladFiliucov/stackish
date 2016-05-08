@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create]
-  before_action :get_question, only: [:index, :new, :create, :show, :destroy]
+  before_action :get_question, only: [:new, :create, :show, :destroy]
   before_action :get_answer, only: [:destroy]
   before_action :check_ownership, only: [:destroy]
 

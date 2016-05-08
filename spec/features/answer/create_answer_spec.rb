@@ -27,4 +27,13 @@ feature 'create answer', %{
 
     expect(page).to have_content 'sign in or sign up'
   end
+
+  scenario 'User tries to create invalid answer', js: true do
+    sign_in(user)
+
+    visit question_path(question)
+    click_on 'Answer'
+
+    expect(page).to have_content "can't be blank"
+  end
 end

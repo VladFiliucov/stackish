@@ -1,3 +1,9 @@
-$('.answers').append('<%= j render @answer %>');
-$('#answer_body').val('')
-$("#flash").html("<%= j render 'shared/notice_line' %>")
+<% if @answer.errors.present? %>
+  <% @answer.errors.full_messages.each do |message| %>
+    $('#answer_body').before('<%= j message %>')
+  <% end %>
+<% else %>
+  $('.answers').append('<%= j render @answer %>');
+  $('#answer_body').val('')
+  $("#flash").html("<%= j render 'shared/notice_line' %>")
+<% end %>
