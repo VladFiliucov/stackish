@@ -11,6 +11,5 @@
     = render @question.answers
 
 = simple_form_for [@question, @answer], remote: true do |f|
-  .answer-errors
   = f.input :body, label: 'My Answer'
   = f.submit 'Answer'

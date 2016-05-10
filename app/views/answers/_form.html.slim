@@ -1,0 +1,4 @@
+= simple_form_for [@question, @answer], remote: true, html: { id: "edit-answer-#{answer.id}"} do |form|
+  .edit-answer
+    = form.input :body, label: "New Answer", id: "form_#{dom_id(answer)}"
+    = form.submit answer.new_record? ? 'Submit answer' : 'Update answer'
