@@ -23,11 +23,9 @@ feature 'Editing answer', %{
       visit question_path(question)
     end
 
-    scenario 'Authenticated user can not see link to edit answers of others' do
+    scenario 'Can not see link to edit answers of others' do
       expect(page).to_not have_link('Edit Answer')
     end
-
-    scenario 'Authenticated user tries to edit not his answer'
   end
 
   describe 'Author' do
@@ -40,16 +38,35 @@ feature 'Editing answer', %{
       expect(page).to have_link('Edit Answer')
     end
 
-    scenario 'tries to edit his answer', js: true do
-      click_on 'Edit Answer'
-      within '.edit-answer' do
-        fill_in 'New Answer', with: "Even better answer for a really important question"
+    describe 'Edits his answer', js: true do
+      before do
+        click_on 'Edit Answer'
       end
-      click_on 'Save'
 
-      expect(page).to_not have_content answer.body
-      expect(page).to have_content "Even better answer for a really important question"
-      expect(page).to_not have_selector "textarea"
+      scenario 'With valid attributes' do
+        within '.answers' do
+          fill_in 'body', with: "Even better answer for a really important question"
+        end
+        click_on 'Save'
+
+        expect(page).to_not have_content answer.body
+        expect(page).to have_content "Even better answer for a really important question"
+        within '.answers' do
+          expect(page).to_not have_selector "textarea"
+        end
+      end
+
+      scenario 'With invalid attributes' do
+        within '.answers' do
+          fill_in 'body', with: ""
+        end
+        click_on 'Save'
+
+        expect(page).to have_content answer.body
+        within '.answers' do
+          expect(page).to_not have_selector "textarea"
+        end
+      end
     end
   end
 end

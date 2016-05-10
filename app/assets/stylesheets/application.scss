@@ -1,2 +1,11 @@
 @import "bootstrap";
 @import 'partials/navbar';
+
+.answers p:hover {
+  cursor: pointer;
+}
+
+.answers {
+  margin: 1em;
+  padding: 1em;
+}

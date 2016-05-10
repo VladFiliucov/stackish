@@ -1,3 +1,6 @@
-p= answer.body
 - if current_user && current_user.author?(answer)
+    p= best_in_place [@question, answer], :body, ok_button: "Save", as: :textarea, activator: ".edit_#{dom_id(answer)}"
+    = link_to "Edit Answer", "", class: "edit_#{dom_id(answer)}"
     = button_to 'Delete My Answer', [@question, answer], method: :delete, class: "btn btn-danger btn-sm"
+- else
+    p= answer.body

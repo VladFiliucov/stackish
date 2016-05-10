@@ -17,6 +17,19 @@ class AnswersController < ApplicationController
     flash[:notice] = "Answer has been deleted"
   end
 
+  def update
+    @answer = Answer.find(params[:id])
+    respond_to do |format|
+      if @answer.update(answer_params)
+        format.html { redirect_to(@answer, notice: 'Answer was successfully updated.') }
+        format.json { respond_with_bip(@answer) }
+      else
+        format.html { render :action => "edit" }
+        format.json { respond_with_bip(@answer) }
+      end
+    end
+  end
+
   private
 
   def get_question
