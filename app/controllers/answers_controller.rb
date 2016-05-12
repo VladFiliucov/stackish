@@ -13,7 +13,6 @@ class AnswersController < ApplicationController
 
   def destroy
     @answer.destroy
-    redirect_to question_path(@question)
     flash[:notice] = "Answer has been deleted"
   end
 

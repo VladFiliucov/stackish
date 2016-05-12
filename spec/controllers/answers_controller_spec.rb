@@ -86,23 +86,21 @@ RSpec.describe AnswersController, type: :controller do
       let!(:answer) { create(:answer, question: question, user: @user) }
 
       it 'deletes question' do
-        expect {delete :destroy, question_id: question, id: answer}.to change(Answer, :count).by(-1)
+        expect {delete :destroy, question_id: question, id: answer, format: :js}.to change(Answer, :count).by(-1)
       end
 
-      it 're-renders question path' do
-        delete :destroy, question_id: question, id: answer
-        expect(response).to redirect_to(question)
+      it 'returns success status' do
+        delete :destroy, question_id: question, id: answer, format: :js
+        expect(response.status).to eq(200)
       end
     end
 
     context 'not author' do
       login_user
-
-      let(:owner) {create(:user)}
+      let!(:question) { create(:question) }
+      let!(:answer) { create(:answer, question: question) }
 
       it 'does not delete answer' do
-        question = create(:question)
-        answer = create(:answer, question: question)
         expect { delete :destroy, question_id: question, id: answer }.to_not change(Answer, :count)
       end
     end
