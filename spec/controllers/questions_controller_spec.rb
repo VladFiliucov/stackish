@@ -91,32 +91,32 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with valid attributes' do
       it 'assigns the requested question to @question' do
-        patch :update, id: question, question: attributes_for(:question)
+        patch :update, id: question, question: attributes_for(:question), format: :js
         expect(assigns(:question)).to eq(question)
       end
 
       it 'cahnges question attributes' do
-        patch :update, id: question, question: { title: "new question", body: "body must be at least 20 chars long omg!!" }
+        patch :update, id: question, question: { title: "new question", body: "body must be at least 20 chars long omg!!" }, format: :js
         question.reload
         expect(question.title).to eq("new question")
       end
 
-      it 'redirects to the updated question' do
-        patch :update, id: question, question: attributes_for(:question)
-        expect(response).to redirect_to(question)
+      it 'renders update js template' do
+        patch :update, id: question, question: attributes_for(:question), format: :js
+        expect(response).to render_template 'update'
       end
     end
 
     context 'with invalid attributes' do
-      before {  patch :update, id: question, question: {title: "another title", body: nil } }
+      before {  patch :update, id: question, question: {title: "another title", body: nil }, format: :js }
 
       it 'does not update question attributes' do
         question.reload
         expect(question.title).to eq("New Question")
       end
 
-      it 'renders #edit' do
-        expect(response).to render_template(:edit)
+      it 'returns unprocessable entity' do
+        expect(response.status).to eq(422)
       end
     end
   end

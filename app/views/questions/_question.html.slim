@@ -1,0 +1,8 @@
+div id="#{dom_id(question)}"
+  h1 = question.title
+  h3 = question.body.html_safe
+  = render "form"
+
+  - if current_user && current_user.author?(@question)
+    = button_to 'Delete Question', "", method: :delete, class: "btn btn-danger btn-lg"
+    = link_to 'Edit Question', "", class: "btn btn-primary btn-sm", id: "trigger_question_edit_form", data: {question_id: @question.id}

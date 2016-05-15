@@ -30,9 +30,9 @@ class QuestionsController < ApplicationController
 
   def update
     if @question.update(question_params)
-      redirect_to @question
+      flash.now[:notice] = "Question has been updated!"
     else
-      render :edit
+      render status: :unprocessable_entity
     end
   end
 
