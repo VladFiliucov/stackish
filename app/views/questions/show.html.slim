@@ -3,7 +3,7 @@
     = render @question
 
   .answers
-    = render @question.answers
+    = render @answers
 
 = simple_form_for [@question, @answer], remote: true do |f|
   = f.input :body, label: 'My Answer'

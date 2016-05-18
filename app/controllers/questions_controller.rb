@@ -9,6 +9,7 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = @question.answers.new
+    @answers = @question.answers.order(best_answer?: :desc)
   end
 
   def new

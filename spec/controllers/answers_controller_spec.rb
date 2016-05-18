@@ -18,6 +18,8 @@ RSpec.describe AnswersController, type: :controller do
 
     describe 'POST #create' do
       context 'with valid attributes' do
+        let(:new_answer) { create(:answer, question: question) }
+
         it 'saves new answer to the database' do
           expect {
             post :create, question_id: question, user: user, answer: attributes_for(:answer), format: :js
@@ -28,6 +30,11 @@ RSpec.describe AnswersController, type: :controller do
           expect {
             post :create, question_id: question, user: user, answer: attributes_for(:answer), format: :js
           }.to change(@user.answers, :count).by(1)
+        end
+
+
+        it 'has best_answer set to false by default' do
+          expect(new_answer).to_not be_best_answer
         end
 
         it 'render create template'  do
@@ -102,6 +109,40 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'does not delete answer' do
         expect { delete :destroy, question_id: question, id: answer }.to_not change(Answer, :count)
+      end
+    end
+  end
+
+  describe 'PATCH #mark_best' do
+    login_user
+    let!(:question) { create(:question, user: user) }
+    let!(:answer1) { create(:answer, question: question) }
+    let!(:answer2) { create(:answer, question: question) }
+
+    context 'without best answer' do
+      it 'displays answers in default order' do
+        expect(question.answers.order(best_answer?: :desc)).to be == [answer1, answer2]
+      end
+    end
+
+    context 'with best answer' do
+      let(:best_answer) { create(:answer, question: question, best_answer?: true) }
+
+      it 'displays answers with best standing first in order' do
+        expect(question.answers.order(best_answer?: :desc)).to be == [best_answer, answer1, answer2]
+      end
+
+      context 'new best answer' do
+        it 'resets previous best answers best_answer? attribute to false' do
+          best_answer
+          answer2.mark_best!
+          best_answer.reload
+          expect(best_answer.best_answer?).to be false
+        end
+
+        it 'sets best_answer? for the new best_answer to true' do
+          expect{answer2.mark_best!}.to change{answer2.best_answer?}.from(false).to(true)
+        end
       end
     end
   end

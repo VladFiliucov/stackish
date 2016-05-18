@@ -4,4 +4,11 @@ class Answer < ActiveRecord::Base
 
   validates :body, presence: true, length: { minimum: 20 }
   validates :question_id, :user_id, presence: true
+
+  def mark_best!
+    transaction do
+      question.answers.update_all(best_answer?: false)
+      self.update(best_answer?: true)
+    end
+  end
 end

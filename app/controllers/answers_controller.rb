@@ -29,6 +29,9 @@ class AnswersController < ApplicationController
     end
   end
 
+  def mark_best!
+  end
+
   private
 
   def get_question
