@@ -114,34 +114,51 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH #mark_best' do
-    login_user
+    let(:user) { create(:user) }
+    let(:another_user) { create(:user) }
     let!(:question) { create(:question, user: user) }
+    let!(:not_owned_question) { create(:question, user: another_user) }
     let!(:answer1) { create(:answer, question: question) }
-    let!(:answer2) { create(:answer, question: question) }
+    let!(:answer2) { create(:answer, question: not_owned_question) }
 
-    context 'without best answer' do
-      it 'displays answers in default order' do
-        expect(question.answers.order(best_answer?: :desc)).to be == [answer1, answer2]
+    context 'Guest User' do
+      it 'redirects to sign up page' do
+        patch :mark_best, id: answer1, question_id: question
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
 
-    context 'with best answer' do
-      let(:best_answer) { create(:answer, question: question, best_answer?: true) }
+    context 'Not Author of question' do
+      login_user
+      it 'redirects to question page' do
+        patch :mark_best, id: answer2, question_id: not_owned_question, user: another_user
+        expect(response).to redirect_to question_path(not_owned_question)
+      end
+    end
 
-      it 'displays answers with best standing first in order' do
-        expect(question.answers.order(best_answer?: :desc)).to be == [best_answer, answer1, answer2]
+    context 'Author of question' do
+      before do
+        sign_in(user)
       end
 
-      context 'new best answer' do
-        it 'resets previous best answers best_answer? attribute to false' do
-          best_answer
-          answer2.mark_best!
-          best_answer.reload
-          expect(best_answer.best_answer?).to be false
-        end
+      it 'marks answer as best' do
+        patch :mark_best, id: answer1, question_id: question
+        answer1.reload
+        expect(answer1).to be_best_answer
+      end
 
-        it 'sets best_answer? for the new best_answer to true' do
-          expect{answer2.mark_best!}.to change{answer2.best_answer?}.from(false).to(true)
+      it 'redirects to question page' do
+        patch :mark_best, id: answer1, question_id: question, user: user
+        expect(response).to redirect_to question_path(question)
+      end
+
+      context 'acceptig another answer' do
+        let!(:allready_accepted_answer) { create(:answer, question: question, best_answer?: true) }
+
+        it 'will change previous marked best answer best_answer? attribute to false' do
+          expect {
+            patch :mark_best, id: answer1, question_id: question, user: user
+          }.to change{allready_accepted_answer.reload.best_answer?}.from(true).to(false)
         end
       end
     end

@@ -20,19 +20,26 @@ feature 'Pick best answer', %{
 
   context 'As a signed up user' do
     context 'Owner of question' do
-
-      scenario 'Can pick answer as the best one' do
+      before do
         sign_in(user)
         visit question_path(question)
         within("#mark_best_answer#{answer2.id}") do
           click_link('Mark Best')
         end
+      end
 
-        expect(page).to have_css("div#answer-answer_#{answer2.id}.best_answer")
+      scenario 'Can pick answer as the best one', js: true do
         expect(page).to have_content "You have picked best answer!"
+        expect(page).to_not have_css "#mark_best_answer#{answer2.id}"
+        within("#answer-answer_#{answer2.id}") do
+          expect(page).to_not have_content "Mark Best"
+        end
       end
 
       scenario 'Can pick another answer as the best one' do
+      end
+
+      scenario 'Best answer is displayed first on the page' do
       end
     end
 
