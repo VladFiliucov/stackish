@@ -34,12 +34,29 @@ feature 'Pick best answer', %{
         within("#answer-answer_#{answer2.id}") do
           expect(page).to_not have_content "Mark Best"
         end
+        within(".answers") do
+          expect(page).to have_css(:div, ".best_answer #answer-answer_#{answer2.id}")
+        end
       end
 
-      scenario 'Can pick another answer as the best one' do
+      scenario 'Can pick another answer as the best one', js: true do
+        within("#mark_best_answer#{answer3.id}") do
+          click_link('Mark Best')
+        end
+
+        expect(page).to have_content "You have picked best answer!"
+        expect(page).to_not have_selector(:css, "div .best_answer#answer-answer_#{answer2.id}")
+        expect(page).to have_selector(:css, "div #answer-answer_#{answer3.id}")
+        expect(page).to have_selector(:css, "div .best_answer")
       end
 
       scenario 'Best answer is displayed first on the page' do
+        within("#mark_best_answer#{answer3.id}") do
+          click_link('Mark Best')
+        end
+
+        expect(page.find(".answers").first("div")).to have_css(".best_answer")
+        expect(page.find(".answers").first("div")).to have_css(:div, ".best_answer #answer-answer_#{answer3.id}")
       end
     end
 
