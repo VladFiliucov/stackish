@@ -14,7 +14,6 @@ gem 'devise'
 gem 'bootstrap', '~> 4.0.0.alpha3'
 gem 'html2slim'
 gem 'simple_form'
-gem 'best_in_place'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'
@@ -26,7 +25,9 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'launchy'
   gem 'database_cleaner'
-  gem 'capybara-webkit'
+  # gem 'capybara-webkit'
+  # gem 'selenium-webdriver'
+  gem 'poltergeist'
 end
 
 group :development do

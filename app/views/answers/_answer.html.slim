@@ -5,7 +5,12 @@ div id="answer-#{dom_id(answer)}" class="#{'best_answer' if answer.best_answer?}
       div id="mark_best_answer#{answer.id}"
         = link_to "Mark Best!", mark_best_question_answer_path(@question, answer), method: :patch
   - if current_user && current_user.author?(answer)
-    = link_to "Edit Answer", "", class: "edit_#{dom_id(answer)}"
+    = link_to "Edit Answer", "",  class: "edit-answer-link", data: { answer_id: answer.id }
+    = form_for [@question, answer], html: {  id: "edit-answer-#{answer.id}"}, remote: true do |f|
+      = f.label :body, "Edit my Answer"
+      = f.text_area :body
+      .answer-errors
+      = f.submit "Edit"
     = button_to 'Delete My Answer', [@question, answer], remote: true, method: :delete, class: "btn btn-danger btn-sm"
   - else
     div class="#{'best_answer' if answer.best_answer?}"

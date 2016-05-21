@@ -60,9 +60,6 @@ GEM
       execjs
     awesome_print (1.6.1)
     bcrypt (3.1.11)
-    best_in_place (3.1.0)
-      actionpack (>= 3.2)
-      railties (>= 3.2)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     bootstrap (4.0.0.alpha3)
@@ -79,9 +76,7 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    capybara-webkit (1.11.1)
-      capybara (>= 2.3.0, < 2.8.0)
-      json
+    cliver (0.3.2)
     coderay (1.1.1)
     coffee-rails (4.1.1)
       coffee-script (>= 2.2.0)
@@ -146,6 +141,11 @@ GEM
       mini_portile2 (~> 2.0.0.rc2)
     orm_adapter (0.5.0)
     pg (0.18.4)
+    poltergeist (1.9.0)
+      capybara (~> 2.1)
+      cliver (~> 0.3.1)
+      multi_json (~> 1.0)
+      websocket-driver (>= 0.2.0)
     posix-spawn (0.3.11)
     pry (0.9.12.6)
       coderay (~> 1.0)
@@ -270,6 +270,9 @@ GEM
       binding_of_caller (>= 0.7.2)
       railties (>= 4.0)
       sprockets-rails (>= 2.0, < 4.0)
+    websocket-driver (0.6.4)
+      websocket-extensions (>= 0.1.0)
+    websocket-extensions (0.1.2)
     xpath (2.0.0)
       nokogiri (~> 1.3)
     yard (0.8.7.6)
@@ -278,11 +281,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  best_in_place
   bootstrap (~> 4.0.0.alpha3)
   byebug
   capybara
-  capybara-webkit
   coffee-rails (~> 4.1.0)
   database_cleaner
   devise
@@ -293,6 +294,7 @@ DEPENDENCIES
   jquery-rails
   launchy
   pg (~> 0.15)
+  poltergeist
   pry-byebug
   rails (= 4.2.6)
   rails-assets-tether (>= 1.1.0)!
