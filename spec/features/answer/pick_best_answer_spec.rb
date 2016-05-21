@@ -43,6 +43,7 @@ feature 'Pick best answer', %{
         within("#mark_best_answer#{answer3.id}") do
           click_link('Mark Best')
         end
+        sleep 1
 
         expect(page).to have_content "You have picked best answer!"
         expect(page).to_not have_selector(:css, "div .best_answer#answer-answer_#{answer2.id}")
@@ -50,10 +51,11 @@ feature 'Pick best answer', %{
         expect(page).to have_selector(:css, "div .best_answer")
       end
 
-      scenario 'Best answer is displayed first on the page' do
+      scenario 'Best answer is displayed first on the page', js: true do
         within("#mark_best_answer#{answer3.id}") do
           click_link('Mark Best')
         end
+        sleep 1
 
         expect(page.find(".answers").first("div")).to have_css(".best_answer")
         expect(page.find(".answers").first("div")).to have_css(:div, ".best_answer #answer-answer_#{answer3.id}")

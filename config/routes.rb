@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   resources :questions do
     resources :answers, only: [:new, :create, :destroy, :update] do
       member do
-        patch 'mark_best' => 'answers#mark_best'
+        post 'mark_best' => 'answers#mark_best'
       end
     end
   end

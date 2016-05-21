@@ -142,14 +142,14 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'marks answer as best' do
-        patch :mark_best, id: answer1, question_id: question
+        patch :mark_best, id: answer1, question_id: question, format: :js
         answer1.reload
         expect(answer1).to be_best_answer
       end
 
-      it 'redirects to question page' do
-        patch :mark_best, id: answer1, question_id: question, user: user
-        expect(response).to redirect_to question_path(question)
+      it 'returns success status' do
+        patch :mark_best, id: answer1, question_id: question, user: user, format: :js
+        expect(response.status).to eq(200)
       end
 
       context 'acceptig another answer' do
@@ -157,7 +157,7 @@ RSpec.describe AnswersController, type: :controller do
 
         it 'will change previous marked best answer best_answer? attribute to false' do
           expect {
-            patch :mark_best, id: answer1, question_id: question, user: user
+            patch :mark_best, id: answer1, question_id: question, user: user, format: :js
           }.to change{allready_accepted_answer.reload.best_answer?}.from(true).to(false)
         end
       end

@@ -28,8 +28,8 @@ class AnswersController < ApplicationController
   end
 
   def mark_best
+    @answers = @question.answers
     @answer.mark_best!
-    redirect_to question_path(@question)
     flash[:notice] = "You have picked best answer!"
   end
 
