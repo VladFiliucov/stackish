@@ -3,7 +3,7 @@ div id="answer-#{dom_id(answer)}" class="#{'best_answer' if answer.best_answer?}
   - if current_user && current_user.author?(@question)
     - if !answer.best_answer?
       div id="mark_best_answer#{answer.id}"
-        = link_to "Mark Best!", mark_best_question_answer_path(@question, answer), remote: true, method: :post
+        = link_to "Mark Best!", mark_best_question_answer_path(@question, answer), remote: true, method: :patch
   - if current_user && current_user.author?(answer)
     = link_to "Edit Answer", "",  class: "edit-answer-link", data: { answer_id: answer.id }
     = form_for [@question, answer], html: {  id: "edit-answer-#{answer.id}"}, remote: true do |f|
