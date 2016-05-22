@@ -1,4 +1,4 @@
-require "rails_helper"
+require 'features/features_helper'
 
 feature "Registration" do
   it "allows a user to signup." do

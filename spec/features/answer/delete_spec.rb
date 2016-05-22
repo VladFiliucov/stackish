@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'features/features_helper'
 
 feature 'delete answer', %{
   In order to stop helping people
@@ -11,7 +11,7 @@ feature 'delete answer', %{
   given!(:answer) {create(:answer, question: question, user: owner, body: "This answer soon will be gone.")}
   given!(:user) {create(:user)}
 
-  scenario 'Author deletes his answer' do
+  scenario 'Author deletes his answer', js: true do
     sign_in(owner)
 
     visit question_path(question)

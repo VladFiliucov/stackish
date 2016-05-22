@@ -24,8 +24,10 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'launchy'
-  gem 'selenium-webdriver'
   gem 'database_cleaner'
+  # gem 'capybara-webkit'
+  # gem 'selenium-webdriver'
+  gem 'poltergeist'
 end
 
 group :development do

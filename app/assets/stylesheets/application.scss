@@ -1,2 +1,24 @@
 @import "bootstrap";
 @import 'partials/navbar';
+
+.answers p:hover {
+  cursor: pointer;
+}
+
+.answers {
+  margin: 1em;
+  padding: 1em;
+}
+
+.edit_question {
+  display: none;
+}
+
+.best_answer {
+  background: green;
+  border: 1px solid black;
+}
+
+.edit_answer {
+  display: none;
+}

@@ -1,8 +1,9 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create]
-  before_action :get_question, only: [:index, :new, :create, :show, :destroy]
-  before_action :get_answer, only: [:destroy]
+  before_action :authenticate_user!, only: [:new, :create, :mark_best]
+  before_action :get_question, only: [:new, :create, :show, :destroy, :mark_best]
+  before_action :get_answer, only: [:destroy, :mark_best]
   before_action :check_ownership, only: [:destroy]
+  before_action :check_if_can_mark_best, only: [:mark_best]
 
   def create
     @answer = @question.answers.new(answer_params)
@@ -13,8 +14,23 @@ class AnswersController < ApplicationController
 
   def destroy
     @answer.destroy
-    redirect_to question_path(@question)
     flash[:notice] = "Answer has been deleted"
+  end
+
+  def update
+    @answer = Answer.find(params[:id])
+    @question = @answer.question
+    if @answer.update(answer_params)
+      flash.now[:notice] = "Answer has been updated"
+    else
+      render status: :unprocessable_entity
+    end
+  end
+
+  def mark_best
+    @answers = @question.answers
+    @answer.mark_best!
+    flash[:notice] = "You have picked best answer!"
   end
 
   private
@@ -33,6 +49,14 @@ class AnswersController < ApplicationController
 
   def check_ownership
     unless current_user.author?(@answer)
+      respond_to do |format|
+        format.html {redirect_to @question, notice: 'Not your entry'}
+      end
+    end
+  end
+
+  def check_if_can_mark_best
+    unless current_user.author?(@answer.question)
       respond_to do |format|
         format.html {redirect_to @question, notice: 'Not your entry'}
       end

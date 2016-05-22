@@ -3,7 +3,6 @@
     $('#answer_body').before('<%= j message %>')
   <% end %>
 <% else %>
-  $('.answers').append('<%= j render @answer %>');
-  $('#answer_body').val('')
+  $('.answers').html('<%= j render @answers %>');
   $("#flash").html("<%= j render 'shared/notice_line' %>")
 <% end %>

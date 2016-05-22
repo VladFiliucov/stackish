@@ -1,14 +1,9 @@
 .show-container
-  h1
-    = @question.title
-  - if current_user && current_user.author?(@question)
-  = button_to 'Delete Question', "", method: :delete, class: "btn btn-danger btn-lg"
-  .fields.row
-    h3
-      = @question.body.html_safe
+  .question-container
+    = render @question
 
   .answers
-    = render @question.answers
+    = render @answers
 
 = simple_form_for [@question, @answer], remote: true do |f|
   = f.input :body, label: 'My Answer'
