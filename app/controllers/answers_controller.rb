@@ -44,7 +44,7 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body, :best_answer?)
+    params.require(:answer).permit(:body)
   end
 
   def check_ownership
