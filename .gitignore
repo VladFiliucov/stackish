@@ -31,3 +31,9 @@ config/application.yml
 
 # Ignore rspec preferences
 .rspec
+
+# Uploads folder
+/public/uploads
+/public/system
+/public/tmp
+/public/spec
