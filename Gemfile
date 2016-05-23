@@ -14,6 +14,7 @@ gem 'devise'
 gem 'bootstrap', '~> 4.0.0.alpha3'
 gem 'html2slim'
 gem 'simple_form'
+gem 'carrierwave'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'
