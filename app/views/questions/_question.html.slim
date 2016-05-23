@@ -1,6 +1,10 @@
 div id="#{dom_id(question)}"
   h1 = question.title
   h3 = question.body.html_safe
+  p Attchments:
+  ul 
+    - question.attachments.each do |a|
+      li = a.file.file.filename
   = render "form"
 
   - if current_user && current_user.author?(@question)

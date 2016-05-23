@@ -16,7 +16,7 @@ feature 'Attach file to question', %q{
   scenario 'User attaches file on question creation' do
     fill_in 'Title', with: "This is a title for a new question"
     fill_in 'Body', with: "This the question in details itself, and few more lines"
-    attach_file 'File', "#{Rails.root}/spec/rails_helper.rb"
+    attach_file "File", "#{Rails.root}/spec/rails_helper.rb"
     click_on 'Ask'
 
     expect(page).to have_content 'rails_helper.rb'
