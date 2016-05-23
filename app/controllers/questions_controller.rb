@@ -9,6 +9,7 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = @question.answers.new
+    @answer.attachments.build
     @answers = @question.answers.order(best_answer?: :desc)
   end
 

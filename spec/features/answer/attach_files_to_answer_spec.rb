@@ -14,10 +14,10 @@ feature 'Attach file to answer', %q{
     visit question_path(question)
   end
 
-  scenario 'User attaches file on question creation' do
+  scenario 'User attaches file on question creation', js: true do
     fill_in 'My Answer', with: "This is a answer for the question"
     attach_file "File", "#{Rails.root}/spec/rails_helper.rb"
-    click_on 'Ask'
+    click_on 'Answer'
 
     within ".answers" do
       expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/1/rails_helper.rb'

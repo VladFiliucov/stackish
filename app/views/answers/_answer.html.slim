@@ -1,5 +1,8 @@
 div id="answer-#{dom_id(answer)}" class="#{'best_answer' if answer.best_answer?}"
   p= answer.body
+  ul
+    - answer.attachments.each do |at|
+      li= link_to at.file.identifier, at.file.url
   - if current_user && current_user.author?(@question)
     - if !answer.best_answer?
       div id="mark_best_answer#{answer.id}"
@@ -9,6 +12,9 @@ div id="answer-#{dom_id(answer)}" class="#{'best_answer' if answer.best_answer?}
     = form_for [@question, answer], html: {  id: "edit-answer-#{answer.id}"}, remote: true do |f|
       = f.label :body, "Edit my Answer"
       = f.text_area :body
+      = f.fields_for :attachments do |a|
+        = a.label :file
+        = a.file_field :file
       .answer-errors
       = f.submit "Edit"
     = button_to 'Delete My Answer', [@question, answer], remote: true, method: :delete, class: "btn btn-danger btn-sm"
