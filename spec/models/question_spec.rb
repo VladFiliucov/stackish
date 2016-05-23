@@ -7,6 +7,7 @@ RSpec.describe Question, type: :model do
   it { should belong_to(:user) }
   it { should validate_presence_of(:user_id) }
   it { should have_many(:attachments).dependent(:destroy) }
+  it { should accept_nested_attributes_for :attachments }
 
   it do
     should validate_length_of(:title).
