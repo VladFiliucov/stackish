@@ -5,9 +5,10 @@
     = f.input :body
   p Attachments:
   p
-    = f.fields_for :attachments do |a|
-      = a.label :file
-      = a.file_field :file
-
+    #attachments
+    = f.simple_fields_for :attachments do |a|
+      = render 'attachment_fields', f: a
+      .links
+        = link_to_add_association 'Add Attachment', f, :attachments
   p
     = f.submit 'Ask'
