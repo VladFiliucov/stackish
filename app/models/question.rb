@@ -7,5 +7,5 @@ class Question < ActiveRecord::Base
   validates :title, length: { minimum: 7 }
   validates :body, length: { minimum: 10 }
 
-  accepts_nested_attributes_for :attachments
+  accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 end

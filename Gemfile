@@ -16,6 +16,7 @@ gem 'html2slim'
 gem 'simple_form'
 gem 'carrierwave'
 gem 'remotipart'
+gem 'cocoon'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'
