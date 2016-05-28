@@ -7,7 +7,10 @@
 
 = simple_form_for [@question, @answer], remote: true do |f|
   = f.input :body, label: 'My Answer'
-  = f.fields_for :attachments do |a|
-    = a.label :file
-    = a.file_field :file
+  h3 Attachments:
+  #attachments
+  = f.simple_fields_for :attachments do |attachment|
+    = render 'attachment_fields', f: attachment
+  .links
+        = link_to_add_association 'Attach File', f, :attachments
   = f.submit 'Answer'
