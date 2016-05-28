@@ -5,6 +5,7 @@ div id="#{dom_id(question)}"
   ul 
     - question.attachments.each do |a|
       li = link_to a.file.identifier, a.file.url
+      - if current_user && current_user.author?(@question)
   = render "form"
 
   - if current_user && current_user.author?(@question)
