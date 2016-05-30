@@ -12,5 +12,5 @@
   = f.simple_fields_for :attachments do |attachment|
     = render 'attachment_fields', f: attachment
   .links
-        = link_to_add_association 'Attach File', f, :attachments
+    = link_to_add_association 'Attach File', f, :attachments
   = f.submit 'Answer'
