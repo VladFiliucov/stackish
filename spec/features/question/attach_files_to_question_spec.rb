@@ -29,8 +29,8 @@ feature 'Attach file to question', %q{
 
     scenario 'Can not see add or delete attachemnt link' do
       within "#question_#{question.id}" do
-        expect(page).to_not have_content "Delete Attachment"
-        expect(page).to_not have_content "Add Attachment"
+        expect(page).to_not have_content "Delete File"
+        expect(page).to_not have_content "Add File"
       end
     end
   end
@@ -43,7 +43,7 @@ feature 'Attach file to question', %q{
       fill_in 'Body', with: "This the question in details itself, and few more lines"
     end
 
-    scenario 'Can attach multiple files to question', js: true do
+    scenario 'Can attach multiple files to question on creation', js: true do
       within ".nested-fields" do
         attach_file "File", "#{Rails.root}/spec/features/features_helper.rb"
       end
@@ -60,7 +60,8 @@ feature 'Attach file to question', %q{
 
     scenario 'Can delete attachments from the question', js: true do
       attach_file "File", "#{Rails.root}/spec/features/features_helper.rb"
-      click_on "Delete Attachment"
+      click_on "Ask"
+      click_on "Delete File"
       expect(page).to_not have_content "rails_helper.rb"
     end
 
