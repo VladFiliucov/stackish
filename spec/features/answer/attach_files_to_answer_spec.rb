@@ -65,9 +65,8 @@ feature 'Attach file to answer', %q{
     end
 
     scenario 'Can delete attachment of existing answer', js: true do
-      click_on 'Edit Answer'
       within "#edit-answer-#{answer.id}" do
-        click_on('Delete Attachment')
+        click_on('Delete File')
       end
       click_on 'Edit'
 

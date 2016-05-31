@@ -2,7 +2,10 @@ div id="answer-#{dom_id(answer)}" class="#{'best_answer' if answer.best_answer?}
   p= answer.body
   ul
     - answer.attachments.each do |at|
-      li= link_to at.file.identifier, at.file.url
+      div id="attachment_#{ at.id}"
+        li= link_to at.file.identifier, at.file.url
+        - if current_user && current_user.author?(answer)
+          = link_to "Delete File", attachment_path(at), method: :delete, remote: true
   - if current_user && current_user.author?(@question)
     - if !answer.best_answer?
       div id="mark_best_answer#{answer.id}"
