@@ -6,7 +6,7 @@
     - if current_user && current_user.author?(@question)
       #attachments
         = f.simple_fields_for :attachments do |attachment|
-          = render 'attachment_fields', f: attachment
+          = render '/attachments/attachment_fields', f: attachment
       .links
-        = link_to_add_association 'Add Attachment', f, :attachments
+        = link_to_add_association 'Add Attachment', f, :attachments, partial: "/attachments/attachment_fields"
   = f.submit 'Ask'

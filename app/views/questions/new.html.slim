@@ -7,8 +7,8 @@
   p
     #attachments
     = f.simple_fields_for :attachments do |a|
-      = render 'attachment_fields', f: a
+      = render '/attachments/attachment_fields', f: a
       .links
-        = link_to_add_association 'Add Attachment', f, :attachments
+        = link_to_add_association 'Add Attachment', f, :attachments, partial: "/attachments/attachment_fields"
   p
     = f.submit 'Ask'

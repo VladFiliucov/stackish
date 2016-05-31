@@ -14,9 +14,9 @@ div id="answer-#{dom_id(answer)}" class="#{'best_answer' if answer.best_answer?}
       = f.text_area :body
       div id="answer_#{answer.id}_attachments"
       = f.simple_fields_for :attachments do |attachment|
-        = render 'attachment_fields', f: attachment
+        = render '/attachments/attachment_fields', f: attachment
       .links
-        = link_to_add_association 'Attach File', f, :attachments
+        = link_to_add_association 'Attach File', f, :attachments, partial: "/attachments/attachment_fields"
       .answer-errors
       = f.submit "Edit"
     = button_to 'Delete My Answer', [@question, answer], remote: true, method: :delete, class: "btn btn-danger btn-sm"
