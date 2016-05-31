@@ -2,4 +2,11 @@
   div id="question_errors"
     = f.input :title, label: "Title"
     = f.input :body, label: "Question"
+    h3 Attachments:
+    - if current_user && current_user.author?(@question)
+      #attachments
+        = f.simple_fields_for :attachments do |attachment|
+          = render '/attachments/attachment_fields', f: attachment
+      .links
+        = link_to_add_association 'Add Attachment', f, :attachments, partial: "/attachments/attachment_fields"
   = f.submit 'Ask'

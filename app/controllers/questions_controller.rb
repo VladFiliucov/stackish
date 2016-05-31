@@ -9,11 +9,13 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = @question.answers.new
+    @answer.attachments.build
     @answers = @question.answers.order(best_answer?: :desc)
   end
 
   def new
     @question = current_user.questions.new
+    @question.attachments.build
   end
 
   def create
@@ -50,7 +52,7 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body)
+    params.require(:question).permit(:title, :body, attachments_attributes: [:id, :file, :_destroy])
   end
 
   def check_ownership
