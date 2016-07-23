@@ -12,11 +12,12 @@ RSpec.describe Votable do
     end
   end
 
+  let(:author) { create(:user) }
   let(:user) { create(:user) }
   let(:another_user) { create(:user) }
   let(:and_another_user) { create(:user) }
   let(:yet_another_user) { create(:user) }
-  let(:entry) { WithVotable.create }
+  let(:entry) { WithVotable.create(user: author) }
 
   describe '#rate' do
     it 'decreases objects rate' do
@@ -38,6 +39,14 @@ RSpec.describe Votable do
         entry.rate(user, -1)
       }.to_not change(entry.votes, :count)
       expect(entry.current_rating).to eq(-1)
+    end
+
+    describe 'author of entry' do
+      it 'can not vote for own entry' do
+        expect{
+          entry.rate(author, 1)
+        }.to_not change(entry.votes, :count)
+      end
     end
   end
 

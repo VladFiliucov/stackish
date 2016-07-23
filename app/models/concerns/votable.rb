@@ -10,8 +10,10 @@ module Votable
   end
 
   def rate(user, rating)
-    new_rating = votes.find_or_create_by(user: user)
-    new_rating.update(rate_point: rating)
+    unless user.id == self.user_id
+      new_rating = votes.find_or_create_by(user: user)
+      new_rating.update(rate_point: rating)
+    end
   end
 
   def has_users_rating?(user)
