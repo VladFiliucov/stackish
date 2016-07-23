@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe QuestionsController, type: :controller do
   let(:question) {create(:question)}
 
+  describe 'includes Voted' do
+    it { expect(QuestionsController.ancestors.include? Voted).to eq(true) }
+  end
+
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2) }
 
@@ -153,5 +157,8 @@ RSpec.describe QuestionsController, type: :controller do
         expect { delete :destroy, id: question}.to_not change(Question, :count)
       end
     end
+  end
+
+  describe 'PATCH #change_rating' do
   end
 end

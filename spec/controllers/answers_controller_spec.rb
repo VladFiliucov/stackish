@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
+
+  describe 'includes Voted' do
+    it { expect(AnswersController.ancestors.include? Voted).to eq(true) }
+  end
+
   let(:user) {create(:user)}
   let(:question) {create(:question, user: user)}
 
