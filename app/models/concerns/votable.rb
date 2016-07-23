@@ -13,4 +13,8 @@ module Votable
     new_rating = votes.find_or_create_by(user: user)
     new_rating.update(rate_point: rating)
   end
+
+  def has_users_rating?(user)
+    votes.pluck(:user_id).include?(user.id)
+  end
 end

@@ -51,4 +51,15 @@ RSpec.describe Votable do
       expect(entry.current_rating).to eq(2)
     end
   end
+
+  describe '#has_users_rating?' do
+    it 'returns true if user rated current entry' do
+      entry.rate(user, 1)
+      expect(entry).to have_users_rating(user)
+    end
+
+    it 'returns false if user has not rated current entry' do
+      expect(entry).to_not have_users_rating(user)
+    end
+  end
 end
