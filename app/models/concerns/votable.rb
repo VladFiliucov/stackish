@@ -19,4 +19,10 @@ module Votable
   def has_users_rating?(user)
     votes.pluck(:user_id).include?(user.id)
   end
+
+  def withdraw_users_rating(user)
+    if self.has_users_rating?(user)
+      rate(user, 0)
+    end
+  end
 end

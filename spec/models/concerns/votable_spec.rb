@@ -42,7 +42,7 @@ RSpec.describe Votable do
     end
 
     describe 'author of entry' do
-      it 'can not vote for own entry' do
+      it 'can not rate own entry' do
         expect{
           entry.rate(author, 1)
         }.to_not change(entry.votes, :count)
@@ -69,6 +69,15 @@ RSpec.describe Votable do
 
     it 'returns false if user has not rated current entry' do
       expect(entry).to_not have_users_rating(user)
+    end
+  end
+
+  describe '#withdraw_users_rating' do
+    it 'resets rating' do
+      entry.rate(user, 1)
+      expect {
+        entry.withdraw_users_rating(user).to change(entry.current_rating).from(1).to(0)
+      }
     end
   end
 end
