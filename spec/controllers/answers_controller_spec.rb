@@ -184,6 +184,7 @@ RSpec.describe AnswersController, type: :controller do
     context 'author of answer' do
       it 'can not rate question' do
         expect { patch :change_rating, question_id: question, id: answer, user: owner }.to_not change(answer.votes, :count)
+        expect{response.status.to eq(403)}
       end
     end
 
