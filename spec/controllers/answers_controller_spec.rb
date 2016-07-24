@@ -168,4 +168,48 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  describe 'PATCH #change_rating' do
+    let(:user) { create(:user) }
+    let(:owner) { create(:user)}
+    let(:question) { create(:question)}
+    let(:answer) { create(:answer, question: question, user: owner) }
+
+    context 'guest user' do
+      it 'can not rate answer' do
+        expect { patch :change_rating, question_id: question, id: answer}.to_not change(answer.votes, :count)
+      end
+    end
+
+    context 'author of answer' do
+      it 'can not rate question' do
+        expect { patch :change_rating, question_id: question, id: answer, user: owner }.to_not change(answer.votes, :count)
+      end
+    end
+
+    context 'user' do
+      login_user
+      it 'can increase rating by one' do
+        patch :change_rating, question_id: question, id: answer, user: user, rating: 1, format: :json
+        expect{ answer.current_rating.to eq(1)}
+      end
+
+      it 'can decrease rating by one' do
+        patch :change_rating, question_id: question, id: answer, user: user, rating: -1, format: :json
+        expect{answer.current_rating.to eq(-1)}
+      end
+
+      it 'can withdraw his rating' do
+        patch :change_rating, question_id: question, id: answer, user: user, rating: -1, format: :json
+        patch :change_rating, question_id: question, id: answer, user: user, rating: 0, format: :json
+        expect{answer.current_rating.to eq(0)}
+      end
+
+      it 'can not change rating by 2' do
+        patch :change_rating, question_id: question, id: answer, user: user, rating: 1, format: :json
+        patch :change_rating, question_id: question, id: answer, user: user, rating: 1, format: :json
+        expect{answer.current_rating.to eq(1)}
+      end
+    end
+  end
 end

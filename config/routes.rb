@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   devise_for :users
   resources :questions, concerns: :votable do
-    resources :answers, only: [:new, :create, :destroy, :update] do
+    resources :answers, only: [:new, :create, :destroy, :update], concerns: :votable do
       patch :mark_best, on: :member
     end
   end
