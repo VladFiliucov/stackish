@@ -2,15 +2,20 @@ module Voted
   extend ActiveSupport::Concern
 
   included do
-    before_action :authenticate_user!, only: :change_rating
-    before_action :set_votable, only: :change_rating
-    before_action :rating_policy, only: :change_rating
+    before_action :authenticate_user!, only: [:change_rating, :withdraw_rating]
+    before_action :set_votable, only: [:change_rating, :withdraw_rating]
+    before_action :rating_policy, only: [:change_rating, :withdraw_rating]
   end
 
   def change_rating
     rating = params[:rating]
     @votable.rate(current_user, rating)
-    render json: { id: @votable.id, rate_point: rating }
+    render json: { model: model_klass.to_s.downcase, id: @votable.id, rating: rating }
+  end
+
+  def withdraw_rating
+    @votable.withdraw_users_rating(current_user)
+    render json: { model: model_klass.to_s.downcase, id: @votable.id }
   end
 
   private

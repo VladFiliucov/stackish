@@ -6,7 +6,7 @@ module Votable
   end
 
   def current_rating
-    votes.pluck(:rate_point).sum
+    votes.sum(:rate_point)
   end
 
   def rate(user, rating)
@@ -17,12 +17,12 @@ module Votable
   end
 
   def has_users_rating?(user)
-    votes.pluck(:user_id).include?(user.id)
+    votes.pluck(:user_id).include?(user.id) if user
   end
 
   def withdraw_users_rating(user)
-    if self.has_users_rating?(user)
-      rate(user, 0)
+    if has_users_rating?(user)
+      votes.where(user: user).destroy_all
     end
   end
 end

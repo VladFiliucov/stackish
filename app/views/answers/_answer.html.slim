@@ -1,4 +1,5 @@
 div id="answer-#{dom_id(answer)}" class="#{'best_answer' if answer.best_answer?}"
+  = render partial: "shared/rating", locals: {entry: answer, polymorphic_path_args: [@question, answer]}
   p= answer.body
   ul
     - answer.attachments.each do |at|

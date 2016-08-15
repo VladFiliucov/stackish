@@ -1,4 +1,5 @@
 div id="#{dom_id(question)}"
+  = render partial: "shared/rating", locals: {entry: question, polymorphic_path_args: @question}
   h1 = question.title
   h3 = question.body.html_safe
   p Attchments:

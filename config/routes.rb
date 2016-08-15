@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   concern :votable do
     member do
       patch :change_rating
+      delete :withdraw_rating
     end
   end
 

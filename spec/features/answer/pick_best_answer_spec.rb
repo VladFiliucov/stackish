@@ -35,7 +35,7 @@ feature 'Pick best answer', %{
           expect(page).to_not have_content "Mark Best"
         end
         within(".answers") do
-          expect(page).to have_css(:div, ".best_answer #answer-answer_#{answer2.id}")
+          expect(page).to have_css(".best_answer#answer-answer_#{answer2.id}")
         end
       end
 
@@ -46,7 +46,7 @@ feature 'Pick best answer', %{
         sleep 1
 
         expect(page).to have_content "You have picked best answer!"
-        expect(page).to_not have_selector(:css, "div .best_answer#answer-answer_#{answer2.id}")
+        expect(page).to_not have_css("div .best_answer#answer-answer_#{answer2.id}")
         expect(page).to have_selector(:css, "div #answer-answer_#{answer3.id}")
         expect(page).to have_selector(:css, "div .best_answer")
       end
@@ -57,8 +57,8 @@ feature 'Pick best answer', %{
         end
         sleep 1
 
+        expect(page.find(".answers").first('div')[:id]).to eq "answer-answer_#{answer3.id}"
         expect(page.find(".answers").first("div")).to have_css(".best_answer")
-        expect(page.find(".answers").first("div")).to have_css(:div, ".best_answer #answer-answer_#{answer3.id}")
       end
     end
 
