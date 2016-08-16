@@ -1,4 +1,6 @@
 class Question < ActiveRecord::Base
+  include Votable
+
   has_many :answers, -> { order(best_answer?: :desc) }, dependent: :destroy
   belongs_to :user
   has_many :attachments, as: :attachable

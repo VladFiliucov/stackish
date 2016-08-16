@@ -1,0 +1,33 @@
+.rating
+  p id="#{entry.class.name.downcase}_#{entry.id}_rating" Current Rating: #{entry.current_rating}
+  - if !current_user || current_user.author?(entry)
+    div class="change_#{entry.class.name.downcase}_#{entry.id}_rating"
+      = button_to 'Increase Rating', "", disabled: true, id: "#{entry.class.name.downcase}_#{entry.id}_increase_rating_button"
+      = button_to 'Decrease Rating', "", disabled: true
+  - elsif current_user && !current_user.author?(entry)
+    div class="change_#{entry.class.name.downcase}_#{entry.id}_rating"
+      = link_to 'Increase Rating', polymorphic_path(polymorphic_path_args,
+        action: :change_rating,
+        user: current_user, rating: 1, format: :json),
+        method: :patch,
+        id: "increase_rating_button",
+        class: "update_rating_button",
+        remote: true,
+        data: {type: :json, resource_type: entry.class.name.underscore}
+      = link_to 'Decrease Rating', polymorphic_path(polymorphic_path_args,
+        action: :change_rating,
+        user: current_user, rating: -1, format: :json),
+        method: :patch,
+        id: "#{entry.class.name.downcase}_#{entry.id}_decrease_rating_button",
+        class: "update_rating_button",
+        remote: true,
+        data: {type: :json, resource_type: entry.class.name.underscore}
+    div class="withdraw_#{entry.class.name.downcase}_#{entry.id}_rating" style="display: #{entry.has_users_rating?(current_user) ? "inline" : "none"};"
+      = link_to 'Withdraw Rating', polymorphic_path(polymorphic_path_args,
+        action: :withdraw_rating,
+        user: current_user),
+        method: :delete,
+        id: "#{entry.class.name.downcase}_#{entry.id}_withdraw_rating_button",
+        class: "update_rating_button",
+        remote: true,
+        data: {type: :json, resource_type: entry.class.name.underscore}

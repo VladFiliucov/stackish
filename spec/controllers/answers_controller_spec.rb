@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
+
+  describe 'includes Voted' do
+    it { expect(AnswersController.ancestors.include? Voted).to eq(true) }
+  end
+
   let(:user) {create(:user)}
   let(:question) {create(:question, user: user)}
 
@@ -160,6 +165,51 @@ RSpec.describe AnswersController, type: :controller do
             patch :mark_best, id: answer1, question_id: question, user: user, format: :js
           }.to change{allready_accepted_answer.reload.best_answer?}.from(true).to(false)
         end
+      end
+    end
+  end
+
+  describe 'PATCH #change_rating' do
+    let(:user) { create(:user) }
+    let(:owner) { create(:user)}
+    let(:question) { create(:question)}
+    let(:answer) { create(:answer, question: question, user: owner) }
+
+    context 'guest user' do
+      it 'can not rate answer' do
+        expect { patch :change_rating, question_id: question, id: answer}.to_not change(answer.votes, :count)
+      end
+    end
+
+    context 'author of answer' do
+      it 'can not rate question' do
+        expect { patch :change_rating, question_id: question, id: answer, user: owner }.to_not change(answer.votes, :count)
+        expect{response.status.to eq(403)}
+      end
+    end
+
+    context 'user' do
+      login_user
+      it 'can increase rating by one' do
+        patch :change_rating, question_id: question, id: answer, user: user, rating: 1, format: :json
+        expect{ answer.current_rating.to eq(1)}
+      end
+
+      it 'can decrease rating by one' do
+        patch :change_rating, question_id: question, id: answer, user: user, rating: -1, format: :json
+        expect{answer.current_rating.to eq(-1)}
+      end
+
+      it 'can withdraw his rating' do
+        patch :change_rating, question_id: question, id: answer, user: user, rating: -1, format: :json
+        patch :change_rating, question_id: question, id: answer, user: user, rating: 0, format: :json
+        expect{answer.current_rating.to eq(0)}
+      end
+
+      it 'can not change rating by 2' do
+        patch :change_rating, question_id: question, id: answer, user: user, rating: 1, format: :json
+        patch :change_rating, question_id: question, id: answer, user: user, rating: 1, format: :json
+        expect{answer.current_rating.to eq(1)}
       end
     end
   end
