@@ -17,7 +17,7 @@ module Votable
   end
 
   def has_users_rating?(user)
-    votes.pluck(:user_id).include?(user.id) if user
+    votes.exists?(user_id: user.id) if user
   end
 
   def withdraw_users_rating(user)
