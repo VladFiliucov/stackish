@@ -10,7 +10,7 @@ module Votable
   end
 
   def rate(user, rating)
-    unless user.id == self.user_id
+    unless user.author?(self)
       new_rating = votes.find_or_create_by(user: user)
       new_rating.update(rate_point: rating)
     end
