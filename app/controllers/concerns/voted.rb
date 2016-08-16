@@ -29,6 +29,6 @@ module Voted
   end
 
   def rating_policy
-    render nothing: true, status: 403 if !current_user || current_user.author?(@votable)
+    return head(:forbidden) if !current_user || current_user.author?(@votable)
   end
 end
