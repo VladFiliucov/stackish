@@ -6,4 +6,10 @@
   $('.answers').append('<%= j render @answer %>');
   $('#answer_body').val('')
   $("#flash").html("<%= j render 'shared/notice_line' %>")
+
+  <% publish_to "/question/#{@question.id}/answers" do %>
+    $('.answers').append('<%= j render @answer %>');
+    $('#answer_body').val('')
+    $("#flash").html("<%= j render 'shared/notice_line' %>")
+  <% end %>
 <% end %>

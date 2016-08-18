@@ -14,3 +14,5 @@
   .links
     = link_to_add_association 'Attach File', f, :attachments, partial: "/attachments/attachment_fields"
   = f.submit 'Answer'
+
+  = subscribe_to "/question/#{@question.id}/answers"
