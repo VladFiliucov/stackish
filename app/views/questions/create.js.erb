@@ -1,0 +1,13 @@
+<% if @question.errors.present? %>
+  <% @question.errors.full_messages.each do |message| %>
+    $('#question_body').before('<%= j message %>')
+  <% end %>
+<% else %>
+  <% publish_to "/questions" do %>
+    $('#main-question-list').append('<%= j render @question %>');
+  <% end %>
+
+  $('#question_body').val('')
+  $("#flash").html("<%= j render 'shared/notice_line' %>")
+
+<% end %>

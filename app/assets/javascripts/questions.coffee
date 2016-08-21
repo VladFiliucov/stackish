@@ -9,6 +9,11 @@ ready = ->
     question_id = $(this).data('questionId');
     $('#edit-question-' + question_id).show();
 
+  PrivatePub.subscribe "/questions", (data, channel) ->
+    question = $.parseJSON(data['question'])
+    $("table#main-question-list").append("<tr><td id=question-#{question.id}>
+      <a href=/questions/#{question.id}>" + question.title + "</a></td><td>#{user}</td></tr>")
+
 $(document).ready(ready)
 $(document).on('page:load', ready)
 $(document).on('page:update', ready)

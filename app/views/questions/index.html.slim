@@ -2,7 +2,7 @@ h1[style="text-align: center;"]
   | All Questions
 .main-container.center
   .research-table.col-md-10.col-md-offset-1
-    table.table.table-hover.table-striped.table-bordered
+    table.table.table-hover.table-striped.table-bordered#main-question-list
       thead
         tr
           th
@@ -18,3 +18,5 @@ h1[style="text-align: center;"]
               = q.user.email
   div
     = link_to "Ask Question", new_question_path, class: "btn btn-primary btn-lg active"
+
+  = subscribe_to "/questions"
