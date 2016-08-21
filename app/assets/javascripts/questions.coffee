@@ -11,8 +11,9 @@ ready = ->
 
   PrivatePub.subscribe "/questions", (data, channel) ->
     question = $.parseJSON(data['question'])
+    users_email = $.parseJSON(data['users_email'])
     $("table#main-question-list").append("<tr><td id=question-#{question.id}>
-      <a href=/questions/#{question.id}>" + question.title + "</a></td><td>#{user}</td></tr>")
+      <a href=/questions/#{question.id}>" + question.title + "</a></td><td>#{users_email}</td></tr>")
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
