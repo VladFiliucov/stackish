@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'comments/create'
+
   resources :attachments, only: [:destroy]
 
   concern :votable do
