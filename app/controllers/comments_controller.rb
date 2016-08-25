@@ -6,7 +6,7 @@ class CommentsController < ApplicationController
     @comment = @commentable.comments.new(comment_params)
     @comment.user = current_user
     if @comment.save
-      PrivatePub.publish_to "/#{commentable_name}_#{@commentable.id}/comments", comment_body: @comment.body.to_json, comment_author: @comment.user.email.to_json
+      PrivatePub.publish_to "/comments", comment_body: @comment.body.to_json, comment_author: @comment.user.email.to_json, commentable_id: @commentable.id.to_json, commentable_type: commentable_name.to_json
       render nothing: true
     else
       render json: { errors: @comment.errors.full_messages }
