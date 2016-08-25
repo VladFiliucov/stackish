@@ -8,6 +8,8 @@ RSpec.describe Question, type: :model do
   it { should validate_presence_of(:user_id) }
   it { should have_many(:attachments) }
   it { should accept_nested_attributes_for :attachments }
+  it { expect(Question.ancestors.include? Commentable).to eq(true) }
+  it { expect(Question.ancestors.include? Votable).to eq(true) }
 
   it do
     should validate_length_of(:title).

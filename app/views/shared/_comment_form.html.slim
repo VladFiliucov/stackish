@@ -1,0 +1,5 @@
+- if current_user
+  = simple_form_for commentable.comments.build, url: polymorphic_path(path_arguments.push(:comments)), html: { id: "#{commentable.class.to_s.downcase}_#{commentable.id}_comment_form"}, remote: true do |f|
+    = f.input :body, label: "Comment", as: :text
+
+    p= f.submit 'Comment', class: 'btn btn-primary'

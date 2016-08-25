@@ -42,7 +42,7 @@ feature 'Editing answer', %{
       scenario 'With valid attributes', js: true do
         within ".answers" do
           find_link("Edit Answer").trigger('click')
-          expect(page).to have_selector "textarea"
+          expect(page).to have_css "textarea#answer_body"
           fill_in 'Edit my Answer', with: "Even better answer for a really important question asdasdasdasd"
           click_on 'Edit'
         end
@@ -50,7 +50,7 @@ feature 'Editing answer', %{
         expect(page).to_not have_content answer.body
         expect(page).to have_content "Even better answer for a really important question"
         within '.answers' do
-          expect(page).to_not have_selector "textarea"
+          expect(page).to_not have_selector "textarea#answer_body"
         end
       end
 

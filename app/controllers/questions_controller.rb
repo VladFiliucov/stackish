@@ -23,6 +23,7 @@ class QuestionsController < ApplicationController
   def create
     @question = current_user.questions.create(question_params)
     if @question.save
+      PrivatePub.publish_to("/questions", question: @question.to_json, users_email: @question.user.email.to_json)
       redirect_to @question
       flash[:notice] = "Your question was successfully posted."
     else

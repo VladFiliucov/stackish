@@ -1,5 +1,6 @@
 class Question < ActiveRecord::Base
   include Votable
+  include Commentable
 
   has_many :answers, -> { order(best_answer?: :desc) }, dependent: :destroy
   belongs_to :user

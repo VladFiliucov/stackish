@@ -10,8 +10,14 @@ class AnswersController < ApplicationController
   def create
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
-    @answer.save
-    flash.now[:notice] =  'Your answer was successfully posted.'
+    respond_to do |format|
+      if @answer.save
+        format.js
+        flash.now[:notice] =  'Your answer was successfully posted.'
+      else
+        format.js
+      end
+    end
   end
 
   def destroy

@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.remotipart
+//= require private_pub
 //= require tether
 //= require bootstrap-sprockets
 //= require turbolinks

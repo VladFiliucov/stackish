@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'comments/create'
+
   resources :attachments, only: [:destroy]
 
   concern :votable do
@@ -10,7 +12,10 @@ Rails.application.routes.draw do
 
   devise_for :users
   resources :questions, concerns: :votable do
+    resources :comments, only: :create, defaults: {commentable: 'questions'}
+
     resources :answers, only: [:new, :create, :destroy, :update], concerns: :votable do
+      resources :comments, only: :create, defaults: {commentable: 'answers'}
       patch :mark_best, on: :member
     end
   end

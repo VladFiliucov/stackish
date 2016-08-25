@@ -17,6 +17,9 @@ gem 'simple_form'
 gem 'carrierwave'
 gem 'remotipart'
 gem 'cocoon'
+gem 'private_pub'
+gem 'thin'
+gem 'gon'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'

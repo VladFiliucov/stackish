@@ -1,6 +1,10 @@
 div id="answer-#{dom_id(answer)}" class="#{'best_answer' if answer.best_answer?}"
   = render partial: "shared/rating", locals: {entry: answer, polymorphic_path_args: [@question, answer]}
   p= answer.body
+  = render answer.comments
+  div id="answer_#{answer.id}_comments"
+  - if current_user
+    = render 'shared/comment_form', commentable: answer, path_arguments: [answer.question, answer], id: "#answer_#{answer.id}_comment_form"
   ul
     - answer.attachments.each do |at|
       div id="attachment_#{ at.id}"
