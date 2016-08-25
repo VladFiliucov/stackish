@@ -6,7 +6,7 @@
       = subscribe_to "/comments"
     - if current_user
       .comment_form
-        = render 'shared/comment_form', commentable: @question, path_arguments: [@question]
+        = render 'shared/comment_form', commentable: @question, path_arguments: [@question], id: "question_#{@question.id}_comment_form"
 
   .answers
     = render @answers
