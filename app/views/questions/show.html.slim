@@ -1,12 +1,12 @@
 .show-container
   .question-container
     = render @question
-    div class="question_#{@question.id}_comments"
+    div id="question_#{@question.id}_comments"
       = render @question.comments
       = subscribe_to "/comments"
     - if current_user
       .comment_form
-        = render 'shared/comment_form', commentable: @question
+        = render 'shared/comment_form', commentable: @question, path_arguments: [@question]
 
   .answers
     = render @answers

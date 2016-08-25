@@ -9,7 +9,7 @@ ready = ->
     commentable_id = $.parseJSON(data['commentable_id'])
     commentable_type = $.parseJSON(data['commentable_type'])
 
-    $('.' + commentable_type + '_' + commentable_id + '_comments').append("<div id=comment_" + commentable_id + ">" + author + ": " + body + "</div>")
+    $('#' + commentable_type + '_' + commentable_id + '_comments').append("<div id=comment_" + commentable_id + ">" + author + ": " + body + "</div>")
     $('textarea#comment_body').val('')
 
 $(document).ready(ready)

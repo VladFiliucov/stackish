@@ -1,5 +1,5 @@
 - if current_user
-  = simple_form_for [commentable, Comment.new ], html: { id: "#{commentable.class}_#{commentable.id}_comment"}, remote: true do |f|
+  = simple_form_for commentable.comments.build, url: polymorphic_path(path_arguments.push(:comments)), remote: true do |f|
     = f.input :body, as: :text
 
     p= f.submit 'Comment', class: 'btn btn-primary'
