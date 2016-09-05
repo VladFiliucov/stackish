@@ -5,8 +5,10 @@ class QuestionsController < ApplicationController
   before_action :set_question, only: [:show, :edit, :update, :destroy]
   before_action :check_ownership, only: [:destroy]
 
+  respond_to :html, :json
+
   def index
-    @questions = Question.all
+    respond_with(@questions = Question.all)
   end
 
   def show
