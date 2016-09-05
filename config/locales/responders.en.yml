@@ -10,3 +10,6 @@ en:
       destroy:
         notice: '%{resource_name} has been deleted.'
         alert: '%{resource_name} could not be destroyed.'
+  answers:
+    mark_best:
+      notice: "You have picked best answer!"

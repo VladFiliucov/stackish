@@ -1,33 +1,25 @@
 class AnswersController < ApplicationController
   include Voted
 
-  before_action :authenticate_user!, only: [:new, :create, :mark_best]
-  before_action :get_question, only: [:new, :create, :show, :destroy, :mark_best]
-  before_action :get_answer, only: [:destroy, :mark_best]
+  before_action :authenticate_user!, only: [:create, :mark_best]
+  before_action :get_question, only: [:create, :update, :destroy, :mark_best]
+  before_action :get_answer, only: [:update, :destroy, :mark_best]
   before_action :check_ownership, only: [:destroy]
   before_action :check_if_can_mark_best, only: [:mark_best]
 
+  respond_to :js
+
   def create
-    @answer = @question.answers.new(answer_params)
-    @answer.user = current_user
-    respond_to do |format|
-      if @answer.save
-        format.js
-        flash.now[:notice] =  'Your answer was successfully posted.'
-      else
-        format.js
-      end
-    end
+    @answer = @question.answers.new(answer_params.merge(user: current_user))
+    @answer.save
+    respond_with(@answer, location: @question)
   end
 
   def destroy
-    @answer.destroy
-    flash[:notice] = "Answer has been deleted"
+    respond_with(@answer.destroy)
   end
 
   def update
-    @answer = Answer.find(params[:id])
-    @question = @answer.question
     if @answer.update(answer_params)
       flash.now[:notice] = "Answer has been updated"
     else
