@@ -15,7 +15,7 @@
   = f.input :body, label: 'My Answer'
   h3 Attachments:
   #attachments
-  = f.simple_fields_for :attachments do |attachment|
+  = f.simple_fields_for :attachments, @answer.attachments.build do |attachment|
     = render '/attachments/attachment_fields', f: attachment
   .links
     = link_to_add_association 'Attach File', f, :attachments, partial: "/attachments/attachment_fields"

@@ -4,31 +4,29 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_question, only: [:show, :edit, :update, :destroy]
   before_action :check_ownership, only: [:destroy]
+  before_action :build_answer, only: :show
+
+  respond_to :json
 
   def index
-    @questions = Question.all
+    respond_with(@questions = Question.all)
   end
 
   def show
-    @answer = @question.answers.new
-    @answer.attachments.build
     @answers = @question.answers.order(best_answer?: :desc)
+    respond_with @question
   end
 
   def new
     @question = current_user.questions.new
-    @question.attachments.build
   end
 
   def create
     @question = current_user.questions.create(question_params)
     if @question.save
       PrivatePub.publish_to("/questions", question: @question.to_json, users_email: @question.user.email.to_json)
-      redirect_to @question
-      flash[:notice] = "Your question was successfully posted."
-    else
-      render :new
     end
+    respond_with @question
   end
 
   def edit
@@ -43,15 +41,17 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question.destroy
-    redirect_to questions_path
-    flash[:notice] = "Question has been deleted."
+    respond_with(@question.destroy)
   end
 
   private
 
   def set_question
     @question = Question.find(params[:id])
+  end
+
+  def build_answer
+    @answer = @question.answers.new
   end
 
   def question_params

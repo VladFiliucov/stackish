@@ -16,7 +16,7 @@ feature 'create answer', %{
     fill_in 'My Answer', with: 'Bloody marvelous answer for this stupid question! lajksjdkahsljdka'
     click_on 'Answer'
 
-    expect(page).to have_content 'Your answer was successfully posted.'
+    expect(page).to have_content 'Your Answer was successfully posted.'
     expect(page).to have_content 'Bloody marvelous answer'
   end
 
