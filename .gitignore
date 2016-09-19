@@ -24,6 +24,7 @@
 .bundle/*
 !.bundle/config
 config/application.yml
+config/secrets.yml
 
 # Ignore rvm config files
 .ruby-version
