@@ -22,4 +22,17 @@ RSpec.describe User do
       expect(user).to_not be_author(unauthorized_entry)
     end
   end
+
+
+  describe ".find_for_oauth" do
+    let!(:user) { create(:user) }
+    let(:auth) { :Omniauth::AuthHash.new(provider: 'facebook', uid: '12345') }
+
+    context 'user already has authorization' do
+      it 'it returns the user' do
+        user.authorizations.create(provider: 'facebook', uid: '12345')
+        expect(User.find_for_oauth(auth)).to eq user
+      end
+    end
+  end
 end
