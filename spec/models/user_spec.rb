@@ -73,7 +73,7 @@ RSpec.describe User do
 
         it 'fills user email' do
           user = User.find_for_oauth(auth)
-          expect(user.email).to eq("nonexisting@user.com")
+          expect(user.email).to eq(auth.info.email)
         end
 
         it 'creates authorization for user' do
