@@ -20,5 +20,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'policies', to: "application#policies"
+  get 'terms_and_conditions', to: "application#terms_and_conditions"
+
   root "questions#index"
 end
