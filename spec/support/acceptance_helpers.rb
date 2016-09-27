@@ -5,4 +5,19 @@ module AcceptanceHelpers
     fill_in 'Password', with: user.password
     click_on 'Log in'
   end
+
+  def mock_auth_hash(provider)
+    OmniAuth.config.mock_auth[provider.to_sym] = OmniAuth::AuthHash.new({
+      'provider' => provider,
+      'uid' => '123545',
+      'info' => {
+        'name' => 'mockuser',
+        'email' => 'user@email.com'
+      },
+      'credentials' => {
+        'token' => 'mock_token',
+        'secret' => 'mock_secret'
+      }
+    })
+  end
 end

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   get 'comments/create'
 
   resources :attachments, only: [:destroy]
@@ -10,7 +11,7 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
   resources :questions, concerns: :votable do
     resources :comments, only: :create, defaults: {commentable: 'questions'}
 
@@ -19,6 +20,9 @@ Rails.application.routes.draw do
       patch :mark_best, on: :member
     end
   end
+
+  get 'terms_and_conditions', to: 'user_agreements#terms_and_conditions'
+  get 'policies', to: 'user_agreements#policies'
 
   root "questions#index"
 end
