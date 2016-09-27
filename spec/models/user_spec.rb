@@ -88,6 +88,13 @@ RSpec.describe User do
           expect(authorization.uid).to eq(auth.uid)
         end
       end
+
+      context 'user is invalid' do
+        let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '12345', info: { email: ""}) }
+        it 'returns new user if user is not persisted' do
+          expect(User.find_for_oauth(auth)).to be_a_new(User)
+        end
+      end
     end
   end
 end
