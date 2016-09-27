@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   get 'comments/create'
 
   resources :attachments, only: [:destroy]
@@ -20,8 +21,8 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'policies', to: "application#policies"
-  get 'terms_and_conditions', to: "application#terms_and_conditions"
+  get 'terms_and_conditions', to: 'user_agreements#terms_and_conditions'
+  get 'policies', to: 'user_agreements#policies'
 
   root "questions#index"
 end
