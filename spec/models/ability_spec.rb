@@ -12,4 +12,10 @@ describe Ability do
 
     it { should_not be_able_to :manage, :all }
   end
+
+  describe 'admin ability' do
+    let(:user) { create(:user, admin: true) }
+
+    it { should be_able_to :manage, :all }
+  end
 end
