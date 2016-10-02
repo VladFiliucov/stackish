@@ -69,6 +69,7 @@ GEM
     byebug (2.7.0)
       columnize (~> 0.3)
       debugger-linecache (~> 1.2)
+    cancancan (1.15.0)
     capybara (2.7.0)
       addressable
       mime-types (>= 1.16)
@@ -356,6 +357,7 @@ PLATFORMS
 DEPENDENCIES
   bootstrap (~> 4.0.0.alpha3)
   byebug
+  cancancan
   capybara
   carrierwave
   cocoon
