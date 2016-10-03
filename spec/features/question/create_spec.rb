@@ -24,9 +24,8 @@ feature 'create question', %{
 
   scenario 'Non-authenticated user tries to create question' do
     visit '/questions'
-    click_on 'Ask Question'
 
-    expect(page).to have_content 'sign in or sign up'
+    expect(page).to_not have_content 'Ask Question'
   end
 end
 
