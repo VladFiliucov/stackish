@@ -9,6 +9,8 @@ class AnswersController < ApplicationController
 
   respond_to :js
 
+  authorize_resource
+
   def create
     @answer = @question.answers.new(answer_params.merge(user: current_user))
     @answer.save
