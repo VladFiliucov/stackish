@@ -27,5 +27,7 @@ class Ability
     can :destroy, [Question, Answer, Comment], user: user
 
     can :mark_best, Answer, question: { user_id: user.id }
+    can :change_rating, [Question, Answer] { |votable| votable.user != user }
+    can :withdraw_rating, [Question, Answer] { |votable| votable.user == user }
   end
 end

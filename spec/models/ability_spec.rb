@@ -23,7 +23,9 @@ describe Ability do
     let(:user) { create(:user) }
     let(:other_user) { create(:user) }
     let(:question){ create(:question, user: user) }
+    let(:other_users_question){ create(:question, user: other_user) }
     let(:answer) { create(:answer, question: question, user: user) }
+    let(:other_users_answer){ create(:answer, user: other_user) }
 
     it { should_not be_able_to :manage, :all}
     it { should be_able_to :read, :all }
@@ -51,5 +53,15 @@ describe Ability do
     it { should_not be_able_to :destroy, create(:comment, user: other_user), user: user }
 
     it { should be_able_to :mark_best, answer }
+
+    it { should be_able_to :change_rating, other_users_question }
+    it { should_not be_able_to :change_rating, question }
+    it { should be_able_to :withdraw_rating, question }
+    it { should_not be_able_to :withdraw_rating, other_users_question }
+
+    it { should be_able_to :change_rating, other_users_answer }
+    it { should_not be_able_to :change_rating, answer }
+    it { should be_able_to :withdraw_rating, answer }
+    it { should_not be_able_to :withdraw_rating, other_users_answer }
   end
 end
