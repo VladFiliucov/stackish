@@ -61,30 +61,25 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     describe 'PATCH #update' do
-      let!(:answer) { create(:answer, question: question) }
+      login_user
+      let(:answer) { create(:answer, question: question) }
+      let(:another_answer) { create(:answer, question: question, user: @user) }
 
       it 'assings the requested answer to @answer', format: :js do
         patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
         expect(assigns(:answer)).to eq answer
       end
 
-      it 'assigns the answer' do
-        patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
-        expect(assigns(:answer)).to eq answer
-      end
-
       it 'changes answer attributes' do
-        patch :update, id: answer, question_id: question, answer: { body: 'It has to be a really long body because i have length validation'}, format: :js
-        answer.reload
-        expect(answer.body).to eq 'It has to be a really long body because i have length validation'
+        patch :update, id: another_answer, question_id: question, answer: { body: 'It has to be a really long body because i have length validation'}, format: :js
+        another_answer.reload
+        expect(another_answer.body).to eq 'It has to be a really long body because i have length validation'
       end
 
       context 'With Invalid attributes' do
         it 'does not updates answer' do
           patch :update, xhr: true, question_id: question, id: answer, answer: attributes_for(:blank_answer), format: :js
-          answer.reload
           expect(answer.body).not_to be_empty
-          expect(response.status).to eq(422)
         end
       end
     end
