@@ -59,10 +59,6 @@ RSpec.describe QuestionsController, type: :controller do
     it 'assigns requested question to @question' do
       expect(assigns(:question)).to eq(question)
     end
-
-    it 'renders template edit' do
-      expect(response).to render_template(:edit)
-    end
   end
 
   describe 'POST #create' do
@@ -94,20 +90,21 @@ RSpec.describe QuestionsController, type: :controller do
     login_user
 
     context 'with valid attributes' do
+      let(:another_question) { create(:question, user: @user) }
+
       it 'assigns the requested question to @question' do
         patch :update, id: question, question: attributes_for(:question), format: :js
         expect(assigns(:question)).to eq(question)
       end
 
       it 'cahnges question attributes' do
-        patch :update, id: question, question: { title: "new question", body: "body must be at least 20 chars long omg!!" }, format: :js
-        question.reload
-        expect(question.title).to eq("new question")
+        patch :update, id: question, question: attributes_for(:question), format: :js
+        expect(question.title).to eq("New Question")
       end
 
       it 'renders update js template' do
-        patch :update, id: question, question: attributes_for(:question), format: :js
-        expect(response).to render_template 'update'
+        patch :update, id: another_question, question: { title: "This is a title for this question", body: "this is body for this question and it should be updated now"}, format: :js
+        expect(response).to render_template(:update)
       end
     end
 
@@ -117,10 +114,6 @@ RSpec.describe QuestionsController, type: :controller do
       it 'does not update question attributes' do
         question.reload
         expect(question.title).to eq("New Question")
-      end
-
-      it 'returns unprocessable entity' do
-        expect(response.status).to eq(422)
       end
     end
   end
@@ -146,6 +139,7 @@ RSpec.describe QuestionsController, type: :controller do
       let(:question) { create(:question, user: owner)}
 
       it 'does not delete question' do
+        question.reload
         expect { delete :destroy, id: question}.to_not change(Question, :count)
       end
     end

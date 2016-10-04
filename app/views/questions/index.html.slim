@@ -16,7 +16,8 @@ h1[style="text-align: center;"]
               = link_to q.title, question_path(q)
             td
               = q.user.email
-  div
-    = link_to "Ask Question", new_question_path, class: "btn btn-primary btn-lg active"
+  - if can?( :create, Question)
+    div
+      = link_to "Ask Question", new_question_path, class: "btn btn-primary btn-lg active"
 
   = subscribe_to "/questions"
