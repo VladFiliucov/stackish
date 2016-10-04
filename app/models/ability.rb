@@ -23,12 +23,12 @@ class Ability
   def user_abilities
     guest_abilities
     can :create, [Question, Answer, Comment]
-    can :update, [Question, Answer, Comment], user: user
+    can :update, [Question, Answer, Comment], user_id: user.id
     can :edit, [Question, Answer, Comment], user: user
     can :destroy, [Question, Answer, Comment], user: user
 
     can :mark_best, Answer, question: { user_id: user.id }
-    can :change_rating, [Question, Answer] { |votable| votable.user != user }
-    can :withdraw_rating, [Question, Answer] { |votable| votable.user == user }
+    can :change_rating, [Question, Answer] { |votable| !user.author?(votable) }
+    can :withdraw_rating, [Question, Answer] { |votable| user.author?(votable)}
   end
 end
