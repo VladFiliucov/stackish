@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  use_doorkeeper
   get 'comments/create'
 
   resources :attachments, only: [:destroy]
