@@ -53,4 +53,5 @@ group :test do
   gem 'shoulda-matchers'
   gem 'capybara'
   gem 'with_model'
+  gem 'json_spec'
 end
