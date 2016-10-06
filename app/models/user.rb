@@ -10,6 +10,8 @@ class User < ActiveRecord::Base
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :authorizations, dependent: :destroy
 
+  scope :all_except_current, ->(user) { where.not(email: user.email) }
+
   def author?(object)
     self.id == object.user_id
   end
