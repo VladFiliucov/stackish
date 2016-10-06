@@ -1,7 +1,6 @@
 class Api::V1::ProfilesController < ApplicationController
   skip_authorization_check
   before_action :doorkeeper_authorize!, only: [:me, :all_except_current]
-  before_action :current_resource_owner, only: [:add_except_current]
 
   respond_to :json
 
