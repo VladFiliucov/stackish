@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resource :profiles do
         get :me, on: :collection
+        get :all_except_current, on: :collection
       end
     end
   end
