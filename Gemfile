@@ -25,6 +25,7 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'cancancan'
+gem 'doorkeeper'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'
@@ -52,4 +53,5 @@ group :test do
   gem 'shoulda-matchers'
   gem 'capybara'
   gem 'with_model'
+  gem 'json_spec'
 end
