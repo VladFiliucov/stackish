@@ -13,4 +13,5 @@ class ApplicationController < ActionController::Base
   end
 
   check_authorization unless: :devise_controller?
+
 end

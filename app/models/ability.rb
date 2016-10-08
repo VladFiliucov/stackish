@@ -30,5 +30,7 @@ class Ability
     can :mark_best, Answer, question: { user_id: user.id }
     can :change_rating, [Question, Answer] { |votable| !user.author?(votable) }
     can :withdraw_rating, [Question, Answer] { |votable| user.author?(votable)}
+    can :me, User, id: user.id
+    can :all_except_current, User, id: user.id
   end
 end
