@@ -1,8 +1,8 @@
 class Api::V1::QuestionsController < Api::V1::BaseController
-  authorize_resource class: User
+  authorize_resource class: Question
 
   def index
-    @qestions = Question.all
-    respond_with @qestions.to_json(include: :answers)
+    @questions = Question.all
+    respond_with @questions, each_serializer: QuestionCollectionSerializer
   end
 end
