@@ -91,7 +91,6 @@ feature 'Attach file to question', %q{
           attach_file "File", "#{Rails.root}/app/models/question.rb"
         end
         click_on 'Ask'
-        click_on 'Ask'
 
         expect(page).to_not have_content("features_helper.rb")
         expect(page).to have_content("question.rb")
