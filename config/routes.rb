@@ -9,7 +9,9 @@ Rails.application.routes.draw do
         get :all_except_current, on: :collection
       end
 
-      resources :questions
+      resources :questions do
+        resources :answers
+      end
     end
   end
 
