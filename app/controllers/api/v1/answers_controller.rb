@@ -7,7 +7,7 @@ class Api::V1::AnswersController < Api::V1::BaseController
   end
 
   def show
-    # @question = Question.find(params[:id])
-    # respond_with @question
+    @answer = Answer.find(params[:id])
+    respond_with @answer
   end
 end
