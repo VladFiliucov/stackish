@@ -69,6 +69,10 @@ describe 'Questions API' do
       let!(:user) { create(:user) }
       let(:access_token) { create(:access_token, resource_owner_id: user.id) }
       let!(:question) { create(:question, user: user) }
+      let!(:answers) { create_list(:answer, 2, question: question) }
+      let(:answer) { answers.first }
+      let!(:comment) { create(:comment, commentable: question) }
+      let!(:attachment) { create(:attachment, attachable: question)}
 
       before do
         get "/api/v1/questions/#{question.id}", format: :json, access_token: access_token.token
@@ -85,6 +89,42 @@ describe 'Questions API' do
       %w(id title body created_at updated_at).each do |attr|
         it "question object contains #{attr}" do
           expect(response.body).to be_json_eql(question.send(attr.to_sym).to_json).at_path("question/#{attr}")
+        end
+      end
+
+      context 'with answers' do
+        it 'included' do
+          expect(response.body).to have_json_size(2).at_path("question/answers")
+        end
+
+        %w(id body created_at updated_at).each do |attr|
+          it "questions answer object contains #{attr}" do
+            expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("question/answers/0/#{attr}")
+          end
+        end
+      end
+
+      context 'with comments' do
+        it 'included' do
+          expect(response.body).to have_json_size(1).at_path("question/comments")
+        end
+
+        %w(id body created_at updated_at user_id).each do |attr|
+          it "questions comment object contains #{attr}" do
+            expect(response.body).to be_json_eql(comment.send(attr.to_sym).to_json).at_path("question/comments/0/#{attr}")
+          end
+        end
+      end
+
+      context 'with attachments' do
+        it 'included' do
+          expect(response.body).to have_json_size(1).at_path("question/attachments")
+        end
+
+        %w(url).each do |attr|
+          it "questions attachment object contains #{attr}" do
+            expect(response.body).to be_json_eql(attachment.file.send(attr.to_sym).to_json).at_path("question/attachments/0/#{attr}")
+          end
         end
       end
     end
