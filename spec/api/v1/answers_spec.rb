@@ -103,4 +103,63 @@ describe 'Answers API' do
       end
     end
   end
+
+  describe 'POST /create' do
+    let!(:user) { create(:user) }
+    let!(:question) { create(:question) }
+    let!(:access_token) { create(:access_token, resource_owner_id: user.id) }
+
+    context 'unauthorized' do
+      it 'returns 401 status if there is no access token' do
+        post "/api/v1/questions/#{question.id}/answers", format: :json, answer: attributes_for(:answer)
+        expect(response.status).to eq(401)
+      end
+
+      it 'returns 401 status if access token is invalid' do
+        post "/api/v1/questions/#{question.id}/answers", format: :json, access_token: '12345', answer: attributes_for(:answer)
+        expect(response.status).to eq(401)
+      end
+    end
+
+    context 'authorized' do
+      let(:create_valid_answer) {post "/api/v1/questions/#{question.id}/answers",
+                                 answer: attributes_for(:answer),
+                                 format: :json, access_token: access_token.token }
+
+      context 'with valid attributes' do
+        it 'expect success status' do
+          create_valid_answer
+          expect(response).to be_success
+        end
+
+        it 'creates new answer' do
+          expect { create_valid_answer }
+            .to change(Answer, :count).by(1)
+        end
+
+        it 'assigns answer to user' do
+          create_valid_answer
+          expect(assigns(:answer).user).to eq User.find(access_token.resource_owner_id)
+        end
+
+        it 'assigns answer to question' do
+          expect {create_valid_answer}.to change(question.answers, :count)
+        end
+      end
+
+      context 'with invaid attributes' do
+        let(:create_invalid_answer) {post "/api/v1/questions/#{question.id}/answers", format: :json, access_token: access_token.token, answer: attributes_for(:blank_answer) }
+
+        it 'returns unprocessable entity' do
+          create_invalid_answer
+          expect(response.status).to eq(422)
+        end
+
+        it "doesn't save the answer" do
+          expect { create_invalid_answer }
+            .to_not change(Answer, :count)
+        end
+      end
+    end
+  end
 end
