@@ -3,6 +3,11 @@
     $('#question_errors').html('<%= j message %>')
   <% end %>
 <% else %>
-  $('.question-container').html("<%= j render @question %>");
-  $("#flash").html("<%= j render 'shared/notice_line' %>")
+  <% if remotipart_submitted? %>
+    $('.question-container').html("<%= j "#{render @question}" %>");
+    $("#flash").html("<%= j "#{render 'shared/notice_line'}" %>")
+  <% else %>
+    $('.question-container').html("<%= j render @question %>");
+    $("#flash").html("<%= j render 'shared/notice_line' %>")
+  <% end %>
 <% end %>

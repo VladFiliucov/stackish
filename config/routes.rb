@@ -8,6 +8,10 @@ Rails.application.routes.draw do
         get :me, on: :collection
         get :all_except_current, on: :collection
       end
+
+      resources :questions do
+        resources :answers, only: [:show, :index, :create]
+      end
     end
   end
 

@@ -7,7 +7,7 @@ feature 'User sign in', %q{
 } do
 
   given(:user) {create(:user)}
-  
+
   scenario 'Registered user tries to sign in' do
     sign_in(user)
 
@@ -20,8 +20,8 @@ feature 'User sign in', %q{
     fill_in 'Email', with: 'wrong@user.com'
     fill_in 'Password', with: 'nonexistinguser'
     click_on 'Log in'
-    
-    expect(page).to have_content('Invalid email or password')
+
+    expect(page).to have_content('Invalid Email or password')
     expect(current_path).to eq(new_user_session_path)
   end
 end

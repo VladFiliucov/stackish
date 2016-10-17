@@ -14,9 +14,9 @@ describe 'Profile API' do
       end
     end
 
-    context 'authorized' do
-      let(:me) { create(:user) }
-      let(:access_token) { create(:access_token, resource_owner_id: me.id) }
+    context 'authenticated' do
+      let!(:me) { create(:user, admin: true) }
+      let!(:access_token) { create(:access_token, resource_owner_id: me.id) }
 
       before do
         get '/api/v1/profiles/me', format: :json, access_token: access_token.token

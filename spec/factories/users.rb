@@ -7,5 +7,6 @@ FactoryGirl.define do
     email
     password 'superpassword1'
     password_confirmation 'superpassword1'
+    admin 'false'
   end
 end
