@@ -1,7 +1,7 @@
 class Api::V1::AnswersController < Api::V1::BaseController
   before_action :set_question, only: [:index, :create]
 
-  authorize_resource class: Answer
+  authorize_resource
 
   def index
     respond_with @question.answers, root: "answers", each_serializer: AnswerSerializer
