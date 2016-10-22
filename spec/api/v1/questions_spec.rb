@@ -1,18 +1,11 @@
 require 'rails_helper'
+# require 'support/shared/api_authorization'
 
 describe 'Questions API' do
   describe 'GET /index' do
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access token' do
-        get '/api/v1/questions', format: :json
-        expect(response.status).to eq(401)
-      end
+    let(:api_path) { '/api/v1/questions' }
 
-      it 'returns 401 status if access token is invalid' do
-        get '/api/v1/questions', format: :json, access_token: '12345'
-        expect(response.status).to eq(401)
-      end
-    end
+    it_behaves_like "API Authenticatable"
 
     context 'authorized' do
       let(:access_token) { create(:access_token) }
@@ -49,6 +42,10 @@ describe 'Questions API' do
           end
         end
       end
+    end
+
+    def do_request(options = {})
+      get "/api/v1/questions", { format: :json }.merge(options)
     end
   end
 

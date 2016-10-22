@@ -9,17 +9,7 @@ describe 'Answers API' do
 
   describe 'GET /index' do
 
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access token' do
-        get "/api/v1/questions/#{question.id}/answers", format: :json
-        expect(response.status).to eq(401)
-      end
-
-      it 'returns 401 status if access token is invalid' do
-        get "/api/v1/questions/#{question.id}/answers", format: :json, access_token: '12345'
-        expect(response.status).to eq(401)
-      end
-    end
+    it_behaves_like "API Authenticatable"
 
     context 'authorized' do
 
@@ -40,6 +30,10 @@ describe 'Answers API' do
           expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("answers/0/#{attr}")
         end
       end
+    end
+
+    def do_request(options = {})
+      get "/api/v1/questions/#{question.id}/answers", { format: :json }.merge(options)
     end
   end
 
