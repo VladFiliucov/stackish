@@ -38,17 +38,8 @@ describe 'Answers API' do
   end
 
   describe 'GET /show' do
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access token' do
-        get "/api/v1/questions/#{question.id}/answers/#{answer.id}", format: :json
-        expect(response.status).to eq(401)
-      end
 
-      it 'returns 401 status if access token is invalid' do
-        get "/api/v1/questions/#{question.id}/answers/#{answer.id}", format: :json, access_token: '12345'
-        expect(response.status).to eq(401)
-      end
-    end
+    it_behaves_like("API Authenticatable")
 
     context 'authorized' do
       let!(:comment) { create(:comment, commentable: answer) }
@@ -96,6 +87,10 @@ describe 'Answers API' do
         end
       end
     end
+
+    def do_request(options = {})
+      get "/api/v1/questions/#{question.id}/answers/#{answer.id}", {format: :json }.merge(options)
+    end
   end
 
   describe 'POST /create' do
@@ -103,17 +98,7 @@ describe 'Answers API' do
     let!(:question) { create(:question) }
     let!(:access_token) { create(:access_token, resource_owner_id: user.id) }
 
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access token' do
-        post "/api/v1/questions/#{question.id}/answers", format: :json, answer: attributes_for(:answer)
-        expect(response.status).to eq(401)
-      end
-
-      it 'returns 401 status if access token is invalid' do
-        post "/api/v1/questions/#{question.id}/answers", format: :json, access_token: '12345', answer: attributes_for(:answer)
-        expect(response.status).to eq(401)
-      end
-    end
+    it_behaves_like("API Authenticatable")
 
     context 'authorized' do
       let(:create_valid_answer) {post "/api/v1/questions/#{question.id}/answers",
@@ -154,6 +139,10 @@ describe 'Answers API' do
             .to_not change(Answer, :count)
         end
       end
+    end
+
+    def do_request(options = {})
+      post "/api/v1/questions/#{question.id}/answers",{ format: :json, answer: attributes_for(:answer)}.merge(options)
     end
   end
 end
