@@ -19,6 +19,10 @@ RSpec.describe AnswersController, type: :controller do
     let(:author_attempt_to_change_rating) { patch :change_rating, question_id: question, id: entry, user: owner }
   end
 
+  it_behaves_like "redirects guest to sign up page" do
+    let(:entry_params) { {question_id: question, answer: attributes_for(:answer)} }
+  end
+
   describe 'Non-authenticated user' do
     describe 'POST #create' do
       it 'redirects to sign up page' do

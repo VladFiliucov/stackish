@@ -16,6 +16,10 @@ RSpec.describe QuestionsController, type: :controller do
     let(:author_attempt_to_change_rating) { patch :change_rating, id: question, user: owner }
   end
 
+  it_behaves_like "redirects guest to sign up page" do
+    let(:entry_params) { {question: attributes_for(:question)} }
+  end
+
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2) }
 
