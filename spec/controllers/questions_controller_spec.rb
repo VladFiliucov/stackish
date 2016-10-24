@@ -89,6 +89,11 @@ RSpec.describe QuestionsController, type: :controller do
         post :create, question: attributes_for(:question)
         expect(response).to redirect_to question_path(assigns(:question))
       end
+
+      it 'publishes to /questions channel' do
+        expect(PrivatePub).to receive(:publish_to).with("/questions", any_args)
+        post :create, question: attributes_for(:question)
+      end
     end
 
     context 'with invalid attributes' do
@@ -99,6 +104,11 @@ RSpec.describe QuestionsController, type: :controller do
       it 're-renders new template' do
         post :create, question: attributes_for(:invalid_question)
         expect(response).to render_template(:new)
+      end
+
+      it 'does not publish to /questions channel' do
+        expect(PrivatePub).to_not receive(:publish_to).with("/questions", any_args)
+        post :create, question: attributes_for(:invalid_question)
       end
     end
   end
