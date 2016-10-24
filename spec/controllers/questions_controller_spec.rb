@@ -7,6 +7,15 @@ RSpec.describe QuestionsController, type: :controller do
     it { expect(QuestionsController.ancestors.include? Voted).to eq(true) }
   end
 
+  it_behaves_like "Votable" do
+    let(:user) { create(:user) }
+    let(:votable_object) { entry }
+    let(:votable_hash) { { id: entry } }
+    let(:entry) { create(:question, user: owner)}
+    let(:guest_attempt_to_change_rating) { patch :change_rating, id: entry }
+    let(:author_attempt_to_change_rating) { patch :change_rating, id: question, user: owner }
+  end
+
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2) }
 
@@ -141,51 +150,6 @@ RSpec.describe QuestionsController, type: :controller do
       it 'does not delete question' do
         question.reload
         expect { delete :destroy, id: question}.to_not change(Question, :count)
-      end
-    end
-  end
-
-  describe 'PATCH #change_rating' do
-    let(:user) { create(:user) }
-    let(:owner) { create(:user)}
-    let(:question) { create(:question, user: owner)}
-
-    context 'guest user' do
-      it 'can not rate question' do
-        expect { patch :change_rating, id: question }.to_not change(question.votes, :count)
-        expect{response.status.to eq(403)}
-      end
-    end
-
-    context 'author of question' do
-      it 'can not rate question' do
-        expect { patch :change_rating, id: question, user: owner }.to_not change(question.votes, :count)
-        expect{response.status.to eq(403)}
-      end
-    end
-
-    context 'user' do
-      login_user
-      it 'can increase rating by one' do
-        patch :change_rating, id: question, user: user, rating: 1, format: :json
-        expect{question.current_rating.to eq(1)}
-      end
-
-      it 'can decrease rating by one' do
-        patch :change_rating, id: question, user: user, rating: -1, format: :json
-        expect{question.current_rating.to eq(-1)}
-      end
-
-      it 'can withdraw his rating' do
-        patch :change_rating, id: question, user: user, rating: -1, format: :json
-        patch :change_rating, id: question, user: user, rating: 0, format: :json
-        expect{question.current_rating.to eq(0)}
-      end
-
-      it 'can not change rating by 2' do
-        patch :change_rating, id: question, user: user, rating: 1, format: :json
-        patch :change_rating, id: question, user: user, rating: 1, format: :json
-        expect{question.current_rating.to eq(1)}
       end
     end
   end
