@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) {create(:question)}
+  let(:user) { create(:user) }
+  let(:question) {create(:question, user: user)}
 
   describe 'includes Voted' do
     it { expect(QuestionsController.ancestors.include? Voted).to eq(true) }
   end
 
   it_behaves_like "Votable" do
-    let(:user) { create(:user) }
     let(:votable_object) { entry }
     let(:votable_hash) { { id: entry } }
     let(:entry) { create(:question, user: owner)}
@@ -18,6 +18,10 @@ RSpec.describe QuestionsController, type: :controller do
 
   it_behaves_like "redirects guest to sign up page" do
     let(:entry_params) { {question: attributes_for(:question)} }
+  end
+
+  it_behaves_like "attachable entry" do
+    let(:attachable) { question }
   end
 
   describe 'GET #index' do
