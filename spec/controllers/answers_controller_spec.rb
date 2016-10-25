@@ -20,7 +20,7 @@ RSpec.describe AnswersController, type: :controller do
     let(:author_attempt_to_change_rating) { patch :change_rating, question_id: question, id: entry, user: owner }
   end
 
-  it_behaves_like "redirects guest to sign up page" do
+  it_behaves_like "unauthorized entry" do
     let(:entry_params) { {question_id: question, answer: attributes_for(:answer)} }
   end
 

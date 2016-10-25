@@ -6,7 +6,7 @@ RSpec.describe CommentsController, type: :controller do
   let!(:question) { create(:question, user: user) }
   let!(:answer) { create(:answer, question: question) }
 
-  it_behaves_like "redirects guest to sign up page" do
+  it_behaves_like "unauthorized entry" do
     let(:entry_params) { {comment: attributes_for(:comment)} }
   end
 

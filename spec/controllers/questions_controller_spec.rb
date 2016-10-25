@@ -16,12 +16,8 @@ RSpec.describe QuestionsController, type: :controller do
     let(:author_attempt_to_change_rating) { patch :change_rating, id: question, user: owner }
   end
 
-  it_behaves_like "redirects guest to sign up page" do
+  it_behaves_like "unauthorized entry" do
     let(:entry_params) { {question: attributes_for(:question)} }
-  end
-
-  it_behaves_like "attachable entry" do
-    let(:attachable) { question }
   end
 
   describe 'GET #index' do
