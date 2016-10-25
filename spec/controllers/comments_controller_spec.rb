@@ -6,13 +6,8 @@ RSpec.describe CommentsController, type: :controller do
   let!(:question) { create(:question, user: user) }
   let!(:answer) { create(:answer, question: question) }
 
-  describe 'Non-authenticated user' do
-    describe "POST #create" do
-      it 'redirects to sign up page' do
-        post :create, format: :js, comment: attributes_for(:comment)
-        expect(response.status).to eq(401)
-      end
-    end
+  it_behaves_like "unauthorized entry" do
+    let(:entry_params) { {comment: attributes_for(:comment)} }
   end
 
   describe 'Logged in user' do
