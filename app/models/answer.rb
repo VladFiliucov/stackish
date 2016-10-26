@@ -11,10 +11,19 @@ class Answer < ActiveRecord::Base
 
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 
+  after_save :calculate_reputation
+
   def mark_best!
     transaction do
       question.answers.update_all(best_answer?: false)
       update(best_answer?: true)
     end
+  end
+
+  private
+
+  def calculate_reputation
+    reputation = Reputation.calculate(self)
+    self.user.update(reputation: reputation)
   end
 end
