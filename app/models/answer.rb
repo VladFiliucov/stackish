@@ -11,7 +11,7 @@ class Answer < ActiveRecord::Base
 
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 
-  after_save :calculate_reputation
+  after_create :update_reputation
 
   def mark_best!
     transaction do
@@ -19,8 +19,6 @@ class Answer < ActiveRecord::Base
       update(best_answer?: true)
     end
   end
-
-  after_create :update_reputation
 
   private
 
