@@ -16,6 +16,12 @@ class User < ActiveRecord::Base
     self.id == object.user_id
   end
 
+  def self.send_daily_digest
+    all.each do |user|
+      DailyMailer.digest(user)
+    end
+  end
+
   def self.find_for_oauth(auth)
     authorization = Authorization.where(provider: auth[:provider], uid: auth[:uid].to_s).first
     return authorization.user if authorization
