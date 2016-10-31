@@ -20,10 +20,11 @@ class Answer < ActiveRecord::Base
     end
   end
 
+  after_create :update_reputation
+
   private
 
-  def calculate_reputation
-    reputation = Reputation.calculate(self)
-    self.user.update(reputation: reputation)
+  def update_reputation
+    CalculateReputationJob.perform_later(self)
   end
 end
