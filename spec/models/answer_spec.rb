@@ -55,15 +55,6 @@ RSpec.describe Answer, type: :model do
     let(:question) { create(:question) }
     subject { build(:answer, user: user, question: question) }
 
-    it 'should calculate reputation after creating' do
-      expect(CalculateReputationJob).to receive(:perform_later).with(subject)
-      subject.save!
-    end
-
-    it 'should not calculate reputation after update' do
-      subject.save!
-      expect(CalculateReputationJob).to_not receive(:perform_now)
-      subject.update(body: '123')
-    end
+    it_behaves_like 'calculates reputation'
   end
 end
