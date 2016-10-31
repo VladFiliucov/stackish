@@ -37,3 +37,6 @@ config/application.yml
 /public/system
 /public/tmp
 /public/spec
+
+# Dump files
+dump.rdb
