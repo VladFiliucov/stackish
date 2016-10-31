@@ -7,6 +7,9 @@ require 'spec_helper'
 require 'rspec/rails'
 require 'with_model'
 require 'cancan/matchers'
+require 'sidekiq/testing'
+
+Sidekiq::Testing.inline!
 
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
