@@ -29,9 +29,9 @@ gem 'doorkeeper'
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'oj'
 gem 'oj_mimic_json'
-# gem 'whenever'
+gem 'whenever'
 gem 'sidekiq'
-gem 'sidetiq'
+# gem 'sidetiq'
 gem 'sinatra', '>=1.3.0', require: nil
 
 source 'https://rails-assets.org' do
