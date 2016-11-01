@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   has_many :votes, as: :votable, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :authorizations, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   scope :all_except_current, ->(user) { where.not(email: user.email) }
 
