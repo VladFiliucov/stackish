@@ -1,4 +1,6 @@
 class SubscriptionsController < ApplicationController
+  authorize_resource
+
   def create
   end
 

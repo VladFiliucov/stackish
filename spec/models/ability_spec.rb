@@ -51,7 +51,9 @@ describe Ability do
     it { should_not be_able_to :destroy, create(:question, user: other_user), user: user }
 
     it { should be_able_to :destroy, create(:comment, user: user), user: user }
+    it { should be_able_to :destroy, create(:subscription, user: user, question: question), user: user }
     it { should_not be_able_to :destroy, create(:comment, user: other_user), user: user }
+    it { should_not be_able_to :destroy, create(:subscription, user: other_user, question: question), user: user }
 
     it { should be_able_to :mark_best, answer }
 
