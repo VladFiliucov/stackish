@@ -1,6 +1,7 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+
   authenticate :user, lambda { |u| u.admin? } do
     mount Sidekiq::Web => '/sidekiq'
   end
@@ -23,6 +24,7 @@ Rails.application.routes.draw do
   get 'comments/create'
 
   resources :attachments, only: [:destroy]
+  resources :subscriptions, only: [:create, :destroy]
 
   concern :votable do
     member do
