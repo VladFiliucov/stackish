@@ -12,6 +12,7 @@ class Answer < ActiveRecord::Base
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 
   after_create :update_reputation
+  after_create :notify_subscribers
 
   def mark_best!
     transaction do
@@ -21,6 +22,10 @@ class Answer < ActiveRecord::Base
   end
 
   private
+
+  def notify_subscribers
+    SendNotificationsJob.perform_later(self)
+  end
 
   def update_reputation
     CalculateReputationJob.perform_later(self)
