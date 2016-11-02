@@ -5,6 +5,7 @@ class NotificationMailer < ApplicationMailer
   #
   #   en.notification_mailer.new_answer_notification.subject
   #
+
   def new_answer_notification(answer)
     @greeting = "Hi"
     @answer = answer
@@ -12,6 +13,8 @@ class NotificationMailer < ApplicationMailer
     @subscribed_users = @question.subscriptions.map {|s| s.user }
     @email_addresses = @subscribed_users.map {|u| u.email }
 
-    mail to: @email_addresses
+    @email_addresses.each do |email|
+      mail to: email
+    end
   end
 end
