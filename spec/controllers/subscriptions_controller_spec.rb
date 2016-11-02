@@ -5,15 +5,24 @@ RSpec.describe SubscriptionsController, type: :controller do
   let!(:question) { create(:question) }
 
   describe "GET #create" do
-    login_user
-
-    it "returns http success" do
-      post :create, id: question.id, format: :json
-      expect(response.status).to eq(201)
+    context 'guest' do
+      it "returns unauthorized" do
+        post :create, id: question.id, format: :json
+        expect(response).to have_http_status :unauthorized
+      end
     end
 
-    it "creates subscription" do
-      expect { post :create, id: question.id, format: :json }.to change(question.subscriptions, :count).by 1
+    context "authenticated user" do
+      login_user
+
+      it "returns http success" do
+        post :create, id: question.id, format: :json
+        expect(response.status).to eq(201)
+      end
+
+      it "creates subscription" do
+        expect { post :create, id: question.id, format: :json }.to change(question.subscriptions, :count).by 1
+      end
     end
   end
 
