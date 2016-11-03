@@ -24,7 +24,6 @@ Rails.application.routes.draw do
   get 'comments/create'
 
   resources :attachments, only: [:destroy]
-  resources :subscriptions, only: [:create, :destroy]
 
   concern :votable do
     member do
@@ -36,6 +35,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
   resources :questions, concerns: :votable do
     resources :comments, only: :create, defaults: {commentable: 'questions'}
+    resources :subscriptions, only: [:create, :destroy]
 
     resources :answers, only: [:new, :create, :destroy, :update], concerns: :votable do
       resources :comments, only: :create, defaults: {commentable: 'answers'}

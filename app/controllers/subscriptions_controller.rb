@@ -4,21 +4,21 @@ class SubscriptionsController < ApplicationController
   before_action :set_subscribtion, only: :destroy
   before_action :check_ownership, only: :destroy
 
-  respond_to :json
+  respond_to :json, :js
 
   authorize_resource
 
   def create
-    @subscription = current_user.subscriptions.create!(question_id: @question.id)
+    @subscription = @question.subscriptions.create!(user: current_user)
     if @subscription.save
-      respond_with @subscription
+      respond_with @subscription, location: @question
     else
       render status: :unprocessable_entity
     end
   end
 
   def destroy
-    respond_with @subscription.destroy
+    respond_with @subscription.destroy, location: @question
   end
 
   private
@@ -28,7 +28,7 @@ class SubscriptionsController < ApplicationController
   end
 
   def set_question
-    @question = Question.find(params[:id])
+    @question = Question.find(params[:question_id])
   end
 
   def check_ownership
