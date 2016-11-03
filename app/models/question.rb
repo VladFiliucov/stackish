@@ -19,6 +19,7 @@ class Question < ActiveRecord::Base
   private
 
   def subscribe_author_for_updates
+    self.user.subscriptions.create!(question_id: self.id)
   end
 
   def update_reputation
