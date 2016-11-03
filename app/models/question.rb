@@ -14,8 +14,12 @@ class Question < ActiveRecord::Base
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 
   after_create :update_reputation
+  after_create :subscribe_author_for_updates
 
   private
+
+  def subscribe_author_for_updates
+  end
 
   def update_reputation
     CalculateReputationJob.perform_later(self)

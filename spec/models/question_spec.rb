@@ -11,6 +11,7 @@ RSpec.describe Question, type: :model do
   it { should accept_nested_attributes_for :attachments }
   it { expect(Question.ancestors.include? Commentable).to eq(true) }
   it { expect(Question.ancestors.include? Votable).to eq(true) }
+  it { is_expected.to callback(:subscribe_author_for_updates).after(:create) }
 
   it do
     should validate_length_of(:title).
