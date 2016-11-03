@@ -1,2 +1,7 @@
-h1 DailyMailer#digest
-p = @greeting + ", find me in app/views/daily_mailer/digest.html.slim"
+= @greeting
+
+h1 Today Questions Are:
+
+- Question.posted_today.each do |question|
+  = question.title
+

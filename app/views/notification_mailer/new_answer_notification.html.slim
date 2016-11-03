@@ -1,2 +1,5 @@
-h1 NotificationMailer#new_answer_notification
-p = @greeting + ", find me in app/views/notification_mailer/new_answer_notification.html.slim"
+p = @greeting
+
+h1 Question you are folowing has new answer
+em = @question.title
+h3 = @answer.body
