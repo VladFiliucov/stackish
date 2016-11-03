@@ -1,6 +1,6 @@
 shared_examples_for 'calculates reputation' do
   it 'should calculate reputation after creating' do
-    expect(CalculateReputationJob).to receive(:perform_later).with(subject)
+    allow(CalculateReputationJob).to receive(:perform_later).with(subject)
     subject.save!
   end
 

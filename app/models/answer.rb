@@ -11,8 +11,8 @@ class Answer < ActiveRecord::Base
 
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 
-  after_create :update_reputation
-  after_create :notify_subscribers
+  after_commit :update_reputation
+  after_commit :notify_subscribers
 
   def mark_best!
     transaction do

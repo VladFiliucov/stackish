@@ -12,7 +12,7 @@ RSpec.describe NotificationMailer, type: :mailer do
 
     it "renders the headers" do
       expect(mail.subject).to eq("New answer notification")
-      expect(mail.to).to eq([user.email, second_user.email])
+      expect(mail.to).to eq([second_user.email])
       expect(mail.from).to eq(["from@example.com"])
     end
 
