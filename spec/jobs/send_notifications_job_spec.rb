@@ -9,7 +9,7 @@ RSpec.describe SendNotificationsJob, type: :job do
   subject { build(:answer, question: question) }
 
   it 'notifies subscribed users via email' do
-    allow(SendNotificationsJob).to receive(:perform_later)
+    expect(SendNotificationsJob).to receive(:perform_later).with(subject)
     subject.save!
   end
 
