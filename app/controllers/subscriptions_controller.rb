@@ -2,7 +2,6 @@ class SubscriptionsController < ApplicationController
   before_action :authenticate_user!, only: [:create, :destroy]
   before_action :set_question
   before_action :set_subscribtion, only: :destroy
-  before_action :check_ownership, only: :destroy
 
   respond_to :json, :js
 
@@ -29,9 +28,5 @@ class SubscriptionsController < ApplicationController
 
   def set_question
     @question = Question.find(params[:question_id])
-  end
-
-  def check_ownership
-    current_user.author?(@subscription)
   end
 end

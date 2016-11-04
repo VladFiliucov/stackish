@@ -33,6 +33,7 @@ describe Ability do
     it { should be_able_to :create, Question }
     it { should be_able_to :create, Answer }
     it { should be_able_to :create, Comment }
+    it { should be_able_to :create, Subscription }
 
     it { should be_able_to :update, create(:question, user: user), user: user }
     it { should be_able_to :edit, create(:question, user: user), user: user }
