@@ -16,7 +16,10 @@ class Question < ActiveRecord::Base
   after_create :update_reputation
   after_create :subscribe_author_for_updates
 
-  scope :posted_today, -> { where('created_at >= ?', Time.zone.now.beginning_of_day) }
+  scope :posted_today, lambda {
+    where("created_at >= ? and created_at <= ?",
+          Date.today.beginning_of_day, Date.today.end_of_day)
+  }
 
   private
 
