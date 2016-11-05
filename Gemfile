@@ -33,6 +33,7 @@ gem 'whenever'
 gem 'sidekiq'
 # gem 'sidetiq'
 gem 'sinatra', '>=1.3.0', require: nil
+gem 'searchkick'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'
