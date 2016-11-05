@@ -9,11 +9,18 @@ class User < ActiveRecord::Base
   has_many :votes, as: :votable, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :authorizations, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   scope :all_except_current, ->(user) { where.not(email: user.email) }
 
   def author?(object)
     self.id == object.user_id
+  end
+
+  def self.send_daily_digest
+    find_each.each do |user|
+      DailyMailer.digest(user).deliver_later
+    end
   end
 
   def self.find_for_oauth(auth)

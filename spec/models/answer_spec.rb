@@ -49,4 +49,12 @@ RSpec.describe Answer, type: :model do
       end
     end
   end
+
+  describe '#reputation' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question) }
+    subject { build(:answer, user: user, question: question) }
+
+    it_behaves_like 'calculates reputation'
+  end
 end

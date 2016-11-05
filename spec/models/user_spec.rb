@@ -8,6 +8,7 @@ RSpec.describe User do
   it { should have_many(:votes).dependent(:destroy) }
   it { should have_many(:comments).dependent(:destroy)}
   it { should have_many(:authorizations).dependent(:destroy)}
+  it { should have_many(:subscriptions).dependent(:destroy) }
 
   describe "Verify ownership with #author?" do
     let(:user) { create(:user)}
@@ -95,6 +96,15 @@ RSpec.describe User do
           expect(User.find_for_oauth(auth)).to be_a_new(User)
         end
       end
+    end
+  end
+
+  describe '.send_daily_digest' do
+    let(:users) { create_list(:user, 2) }
+
+    it 'should send daily digest to all users' do
+      users.each { |user| expect(DailyMailer).to receive(:digest).with(user).and_call_original }
+      User.send_daily_digest
     end
   end
 end

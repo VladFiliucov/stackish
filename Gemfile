@@ -27,9 +27,12 @@ gem 'omniauth-twitter'
 gem 'cancancan'
 gem 'doorkeeper'
 gem 'active_model_serializers', '~> 0.10.0'
-# gem 'active_model_serializers', '~> 0.8.0'
 gem 'oj'
 gem 'oj_mimic_json'
+gem 'whenever'
+gem 'sidekiq'
+# gem 'sidetiq'
+gem 'sinatra', '>=1.3.0', require: nil
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'
@@ -55,6 +58,7 @@ end
 
 group :test do
   gem 'shoulda-matchers'
+  gem 'shoulda-callback-matchers', '~> 1.1.1'
   gem 'capybara'
   gem 'with_model'
   gem 'json_spec'

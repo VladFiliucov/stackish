@@ -86,6 +86,11 @@ RSpec.describe QuestionsController, type: :controller do
         expect(response).to redirect_to question_path(assigns(:question))
       end
 
+      it 'creates new subscription after create' do
+        post :create, question: attributes_for(:question)
+        expect(question.subscriptions.count).to eq(1)
+      end
+
       it 'publishes to /questions channel' do
         expect(PrivatePub).to receive(:publish_to).with("/questions", any_args)
         post :create, question: attributes_for(:question)
@@ -100,6 +105,10 @@ RSpec.describe QuestionsController, type: :controller do
       it 're-renders new template' do
         post :create, question: attributes_for(:invalid_question)
         expect(response).to render_template(:new)
+      end
+
+      it 'creates new subscription after create' do
+        expect { post :create, question: attributes_for(:invalid_question) }.to_not change(Subscription, :count)
       end
 
       it 'does not publish to /questions channel' do
