@@ -1,0 +1,10 @@
+tr
+  td
+    h3 Comment
+  td
+    - if comment.commentable.class.to_s == "Question"
+      = link_to comment.body, polymorphic_path(comment.commentable)
+    - elsif comment.commentable.class.to_s == "Answer"
+      = link_to comment.body, polymorphic_path(comment.commentable.question)
+  td
+    = comment.user.email
