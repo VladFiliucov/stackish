@@ -1,0 +1,14 @@
+tr
+  td
+    | Users Posts
+  td
+    h3 Questions
+    - user.questions.each do |q|
+      p
+        = link_to q.title, question_path(q)
+    h3 Answers
+    - user.answers.each do |a|
+      p
+        = link_to a.body, question_path(a.question)
+  td
+    = user.email
