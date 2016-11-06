@@ -1,11 +1,10 @@
 nav.navbar.navbar-full.navbar-dark.bg-inverse
   h3.navbar-brand
     = link_to "Stackish", root_path, style: "color: white;"
-          /* <button class="btn btn-outline-success" type="submit">Search</button> */
   div.text-center
     = form_tag searches_index_path, method: :get, class: "form-inline float-xs-right" do
-      = text_field_tag :q, nil, class: "form-control"
-      = select_tag :by, options_for_select(["Question", "Answer", "Comment", "User"]), include_blank: true, class: "form-control"
+      = text_field_tag :q, nil, class: "form-control", id: "search_word_field"
+      = select_tag :by, options_for_select(["Question", "Answer", "Comment", "User"]), include_blank: true, class: "form-control", id: "model-type-select"
       = submit_tag "Search", class: "btn btn-outline-success"
   - if user_signed_in?
     div[style="float: right;"]
