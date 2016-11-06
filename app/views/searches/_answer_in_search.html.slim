@@ -1,0 +1,7 @@
+tr
+  td
+    h3 Answer
+  td
+    = link_to answer.body, question_path(answer.question)
+  td
+    = answer.user.email
