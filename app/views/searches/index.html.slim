@@ -1,19 +1,24 @@
 h1[style="text-align: center;"]
   | Search results
 .main-container.center
-  .research-table.col-md-10.col-md-offset-1
-    - @search_results.each do |result|
-      - case result.class
+  .research-table.col-md-12.col-md-offset-1
     table.table.table-hover.table-striped.table-bordered#search-result-list
       thead
         tr
           th
-            | Question
+            | Type
+          th
+            | Occurance
           th
             | Author
       tbody
-          tr
-            td
-              = link_to result.title, question_path(result)
-            td
-              = result.user.email
+      - @search_results.each do |result|
+        - case result.class.to_s
+        - when "Question"
+          = render partial: "searches/question_in_search", locals: { question: result }
+        - when "Answer"
+          = render partial: "searches/answer_in_search", locals: { answer: result }
+        - when "Comment"
+          = render partial: "searches/comment_in_search", locals: { comment: result }
+        - when "User"
+          = render partial: "searches/user_in_search", locals: { user: result }
