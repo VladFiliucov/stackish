@@ -13,6 +13,8 @@ class User < ActiveRecord::Base
 
   scope :all_except_current, ->(user) { where.not(email: user.email) }
 
+  searchkick
+
   def author?(object)
     self.id == object.user_id
   end

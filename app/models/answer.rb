@@ -14,6 +14,8 @@ class Answer < ActiveRecord::Base
   after_create :update_reputation, on: :create
   after_create :notify_subscribers, on: :create
 
+  searchkick
+
   def mark_best!
     transaction do
       question.answers.update_all(best_answer?: false)
