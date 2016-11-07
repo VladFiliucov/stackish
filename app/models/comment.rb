@@ -4,4 +4,6 @@ class Comment < ActiveRecord::Base
 
   validates :user_id, :body, presence: true
   validates :body, length: { minimum: 5}
+
+  searchkick
 end

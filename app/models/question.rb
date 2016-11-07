@@ -16,6 +16,8 @@ class Question < ActiveRecord::Base
   after_create :update_reputation
   after_create :subscribe_author_for_updates
 
+  searchkick
+
   scope :posted_today, lambda {
     where("created_at >= ? and created_at <= ?",
           Date.today.beginning_of_day, Date.today.end_of_day)
