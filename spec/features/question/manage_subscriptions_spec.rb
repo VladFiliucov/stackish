@@ -31,11 +31,7 @@ feature 'manage subscriptions', %{
     end
 
     scenario 'can unsubscribe after creating', js: true do
-      page.find("#question_#{question.id}_subscription")
-      within("#question_#{question.id}_subscription") do
-        node.trigger('click')
-        click_button 'Unsubscribe'
-      end
+      click_link 'Unsubscribe'
       expect(page).to have_content("Subscribe")
     end
   end
