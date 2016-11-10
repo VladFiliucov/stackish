@@ -15,10 +15,31 @@
 }
 
 .best_answer {
-  background: green;
-  border: 1px solid black;
+  background: #edffbd;
 }
 
 .edit_answer {
   display: none;
+}
+
+.heading_and_call_to_action {
+  margin-bottom: 1em;
+}
+
+#main-question-list {
+  margin-bottom: 3em;
+}
+
+.answer-card {
+  background-color: #f1e7ea;
+}
+
+.rating-box {
+  width: 20%;
+}
+
+.rating-box p {
+  text-align: center;
+  padding-top: .5em;
+  font-weight: bold;
 }

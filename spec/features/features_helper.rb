@@ -6,6 +6,14 @@ RSpec.configure do |config|
 
   config.include AcceptanceHelpers, type: :feature
 
+
+    options = {
+      :window_size => [1920, 6000]
+    }
+    Capybara.register_driver :poltergeist do |app|
+      Capybara::Poltergeist::Driver.new(app, options)
+    end
+
   config.use_transactional_fixtures = false
 
   config.before(:suite) do

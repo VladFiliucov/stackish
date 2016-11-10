@@ -31,7 +31,7 @@ feature 'manage subscriptions', %{
     end
 
     scenario 'can unsubscribe after creating', js: true do
-      click_on 'Unsubscribe'
+      click_link 'Unsubscribe'
       expect(page).to have_content("Subscribe")
     end
   end

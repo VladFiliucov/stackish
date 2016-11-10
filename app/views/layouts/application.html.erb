@@ -8,14 +8,15 @@
 </head>
 <body>
   <%= render "layouts/navbar" %>
-  <div id="flash">
-    <% if notice.present? %>
-      <%= render partial: "shared/notice_line" %>
-    <% end %>
-  <p class="alert"><%= alert %></p>
+  <div class="container-fluid">
+    <div id="flash">
+      <% if notice.present? %>
+        <%= render partial: "shared/notice_line" %>
+      <% end %>
+      <p class="alert"><%= alert %></p>
+    </div>
+    <%= yield %>
   </div>
-  <%= yield %>
-
 
 </body>
 </html>
