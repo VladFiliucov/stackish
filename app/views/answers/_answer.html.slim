@@ -1,7 +1,6 @@
 div.card.card-block.answer-card
   div id="answer-#{dom_id(answer)}" class="#{'best_answer' if answer.best_answer?}"
-    div.card-header
-      h4.card-title= answer.body
+    h4.card-title = answer.body
     = render partial: "shared/rating", locals: {entry: answer, polymorphic_path_args: [@question, answer]}
     = render answer.comments
     div id="answer_#{answer.id}_comments"
@@ -30,6 +29,3 @@ div.card.card-block.answer-card
         .answer-errors
         = f.submit "Edit"
       = button_to 'Delete My Answer', [@question, answer], remote: true, method: :delete, class: "btn btn-danger btn-sm"
-    - else
-      div class="#{'best_answer' if answer.best_answer?}"
-        p= answer.body

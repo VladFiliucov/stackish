@@ -1,18 +1,19 @@
-div id="#{dom_id(question)}"
-  = render partial: "shared/rating", locals: {entry: question, polymorphic_path_args: @question}
-  h1 = question.title
-  h3 = question.body.html_safe
-  #subscription_section
-    = render partial:  "subscriptions/subscription_trigger", question: question
-  p Attchments:
-  ul
-    - question.attachments.each do |a|
-      div id="attachment_#{a.id}"
-        li  = link_to a.file.identifier, a.file.url
-        - if current_user && current_user.author?(@question)
-          = link_to "Delete File", attachment_path(a), method: :delete, remote: true
-  = render "form"
+div id="#{dom_id(question)}" class="card"
+  div.card-block
+    = render partial: "shared/rating", locals: {entry: question, polymorphic_path_args: @question}
+    h1.card-title = question.title
+    p.card-text = question.body.html_safe
+    #subscription_section
+      = render partial:  "subscriptions/subscription_trigger", question: question
+    p Attchments:
+    ul
+      - question.attachments.each do |a|
+        div id="attachment_#{a.id}"
+          li  = link_to a.file.identifier, a.file.url
+          - if current_user && current_user.author?(@question)
+            = link_to "Delete File", attachment_path(a), method: :delete, remote: true
+    = render "form"
 
-  - if current_user && current_user.author?(@question)
-    = button_to 'Delete Question', "", method: :delete, class: "btn btn-danger btn-lg"
-    = link_to 'Edit Question', "", class: "btn btn-primary btn-sm", id: "trigger_question_edit_form", data: {question_id: @question.id}
+    - if current_user && current_user.author?(@question)
+      = button_to 'Delete Question', "", method: :delete, class: "btn btn-danger btn-lg"
+      = link_to 'Edit Question', "", class: "btn btn-primary btn-sm", id: "trigger_question_edit_form", data: {question_id: @question.id}
