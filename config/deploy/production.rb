@@ -53,9 +53,10 @@ set :rails_env, :production
 server '138.68.130.240',
   user: 'deploy',
   roles: %w{web app db},
-  primary: true
+  primary: true,
   ssh_options: {
     keys: %w(/home/vladislavfiliucov/.ssh/id_rsa),
     forward_agent: true,
-    auth_methods: %w(publickey password)
+    auth_methods: %w(publickey password),
+    port: 4321
   }
