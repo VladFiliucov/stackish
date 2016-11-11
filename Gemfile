@@ -48,6 +48,7 @@ group :development, :test do
   # gem 'capybara-webkit'
   # gem 'selenium-webdriver'
   gem 'poltergeist'
+  gem 'dotenv-rails'
 end
 
 group :development do
