@@ -6,6 +6,7 @@ set :repo_url, 'git@github.com:VladFiliucov/stackish.git'
 
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, '/home/deploy/stackish'
+set :deploy_user, 'deploy'
 
 # Default value for :linked_files is []
 append :linked_files, 'config/database.yml', 'config/secrets.yml', 'config/private_pub.yml'
