@@ -26,6 +26,8 @@ gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'cancancan'
 gem 'doorkeeper'
+gem 'jsonapi-parser', '~> 0.1.1.beta2'
+gem 'jsonapi', '~> 0.1.1.beta5'
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'oj'
 gem 'oj_mimic_json'
@@ -60,6 +62,7 @@ group :development do
   gem 'capistrano-bundler', require: false
   gem 'capistrano-rvm', require: false
   gem 'capistrano-rails', require: false
+  gem 'capistrano-sidekiq', require: false
 end
 
 group :test do

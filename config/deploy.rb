@@ -7,6 +7,7 @@ set :repo_url, 'git@github.com:VladFiliucov/stackish.git'
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, '/home/deploy/stackish'
 set :deploy_user, 'deploy'
+set :rvm_ruby_version, '2.3.0@stackish'
 
 # Default value for :linked_files is []
 append :linked_files, 'config/database.yml', 'config/private_pub.yml', '.env'
