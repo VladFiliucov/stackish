@@ -17,11 +17,11 @@
 # property set. Specify the username and a domain or IP for the server.
 # Don't use `:all`, it's a meta role.
 
-server '138.68.130.240', user: 'deploy', roles: %w{web app, db}, port: 4321, primary: true
+server '138.68.130.204', user: 'deploy', roles: %w{web app, db}, port: 4321, primary: true
 
 role :app, %w{deploy@138.68.130.204}
 role :web, %w{deploy@138.68.130.204}
-role :db,  %w{deploy@138.68.130.240}
+role :db,  %w{deploy@138.68.130.204}
 
 set :rails_env, :production
 
@@ -52,7 +52,7 @@ set :rails_env, :production
 #
 # The server-based syntax can be used to override options:
 # ------------------------------------
-# server '138.68.130.240',
+# server '138.68.130.204',
 #   user: 'deploy',
 #   roles: %w{web app db},
 #   primary: true,
