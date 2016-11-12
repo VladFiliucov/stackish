@@ -10,7 +10,6 @@ gem 'turbolinks', '< 5'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'slim-rails'
-gem 'dotenv-rails', :require => 'dotenv/rails-now', :groups => [:development, :test]
 gem 'devise'
 gem 'bootstrap', '~> 4.0.0.alpha3'
 gem 'html2slim'
@@ -37,6 +36,8 @@ gem 'sidekiq'
 # gem 'sidetiq'
 gem 'sinatra', '>=1.3.0', require: nil
 gem 'searchkick'
+gem 'dotenv'
+gem 'dotenv-deployment', require: 'dotenv/deployment'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'

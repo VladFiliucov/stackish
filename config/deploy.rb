@@ -10,7 +10,7 @@ set :deploy_user, 'deploy'
 set :rvm_ruby_version, '2.3.0@stackish'
 
 # Default value for :linked_files is []
-append :linked_files, 'config/database.yml', 'config/private_pub.yml', '.env'
+append :linked_files, '.env', 'config/database.yml', 'config/private_pub.yml'
 
 # Default value for linked_dirs is []
 append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/system'
