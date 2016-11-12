@@ -19,10 +19,6 @@
 
 server '138.68.130.204', user: 'deploy', roles: %w{web app, db}, port: 4321, primary: true
 
-role :app, %w{deploy@138.68.130.204}
-role :web, %w{deploy@138.68.130.204}
-role :db,  %w{deploy@138.68.130.204}
-
 set :rails_env, :production
 
 

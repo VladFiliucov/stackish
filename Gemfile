@@ -58,8 +58,8 @@ group :development do
   gem 'pry-byebug'
   gem 'capistrano', require: false
   gem 'capistrano-bundler', require: false
-  gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
+  gem 'capistrano-rails', require: false
 end
 
 group :test do
