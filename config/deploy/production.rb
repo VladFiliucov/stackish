@@ -20,6 +20,7 @@
 server '138.68.130.204', user: 'deploy', roles: %w{web app, db}, port: 4321, primary: true
 
 set :rails_env, :production
+set :stage, :production
 
 
 # Configuration

@@ -13,22 +13,23 @@ set :rvm_ruby_version, '2.3.0@stackish'
 append :linked_files, '.env', 'config/database.yml', 'config/private_pub.yml'
 
 # Default value for linked_dirs is []
-append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/system'
+append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/system', 'public/uploads'
 
 namespace :deploy do
-  desc 'Restarting Sidekiq'
-  task :restart_sidekiq do
-    on roles(:worker) do
-      execute :service, "sidekiq restart"
-    end
-  end
-
-  after "deploy:published", "restart_sidekiq"
-
+  desc 'Restarting Application'
   task :restart do
     on roles(:app) do
       execute :touch, release_path.join("tmp/restart.txt")
     end
   end
   after "deploy:published", "restart"
+
+  desc 'Restarting Sidekiq'
+  task :restart_sidekiq do
+    on roles(:worker) do
+      execute :service, "sidekiq restart"
+    end
+  end
+  after "deploy:published", "restart_sidekiq"
+
 end
