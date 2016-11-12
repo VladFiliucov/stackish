@@ -10,7 +10,7 @@ gem 'turbolinks', '< 5'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'slim-rails'
-gem 'dotenv-rails', :require => 'dotenv/rails-now'
+gem 'dotenv-rails', :require => 'dotenv/rails-now', :groups => [:development, :test]
 gem 'devise'
 gem 'bootstrap', '~> 4.0.0.alpha3'
 gem 'html2slim'
