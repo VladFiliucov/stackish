@@ -10,6 +10,7 @@ gem 'turbolinks', '< 5'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'slim-rails'
+gem 'dotenv-rails', :require => 'dotenv/rails-now'
 gem 'devise'
 gem 'bootstrap', '~> 4.0.0.alpha3'
 gem 'html2slim'
@@ -50,7 +51,7 @@ group :development, :test do
   # gem 'capybara-webkit'
   # gem 'selenium-webdriver'
   gem 'poltergeist'
-  gem 'dotenv-rails'
+  # gem 'dotenv-rails'
 end
 
 group :development do

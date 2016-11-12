@@ -23,6 +23,7 @@
 # Ignore specific config files
 .bundle/*
 !.bundle/config
+.env
 config/application.yml
 config/database.yml
 config/private_pub.yml
