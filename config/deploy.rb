@@ -7,7 +7,7 @@ set :repo_url, 'git@github.com:VladFiliucov/stackish.git'
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, '/home/deploy/stackish'
 set :deploy_user, 'deploy'
-# set :rvm_ruby_version, '2.3.0@stackish'
+set :rvm_ruby_version, '2.3.0@stackish'
 
 set :passenger_restart_with_touch, true
 
