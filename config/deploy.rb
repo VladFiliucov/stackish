@@ -7,7 +7,9 @@ set :repo_url, 'git@github.com:VladFiliucov/stackish.git'
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, '/home/deploy/stackish'
 set :deploy_user, 'deploy'
-set :rvm_ruby_version, '2.3.0@stackish'
+# set :rvm_ruby_version, '2.3.0@stackish'
+
+set :passenger_restart_with_touch, true
 
 # Default value for :linked_files is []
 append :linked_files, '.env', 'config/database.yml', 'config/private_pub.yml', 'config/private_pub_thin.yml'
@@ -24,21 +26,21 @@ namespace :deploy do
   end
   after "deploy:published", "restart"
 
-  desc 'Restarting Sidekiq'
-  task :restart_sidekiq do
-    on roles(:worker) do
-      execute :service, "sidekiq restart"
-    end
-  end
-  # after "deploy:published", "restart_sidekiq"
+  # desc 'Restarting Sidekiq'
+  # task :restart_sidekiq do
+  #   on roles(:worker) do
+  #     execute :service, "sidekiq restart"
+  #   end
+  # end
+  # # after "deploy:published", "restart_sidekiq"
 
-  desc 'Start Sidekiq'
-  task :start_sidekiq do
-    on roles(:app) do
-      execute :service, "sidekiq -q default -q mailers"
-    end
-  end
-  after "deploy:published", "start_sidekiq"
+  # desc 'Start Sidekiq'
+  # task :start_sidekiq do
+  #   on roles(:app) do
+  #     execute :service, "sidekiq -q default -q mailers"
+  #   end
+  # end
+  # after "deploy:published", "start_sidekiq"
 end
 
 namespace :private_pub do
