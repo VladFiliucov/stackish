@@ -81,27 +81,22 @@ end
 after 'deploy:restart', 'private_pub:restart'
 
 namespace :elasticsearch do
-  desc "Install elasticsearch"
-  task :install, roles: :web do
-    run "#{sudo} apt-get update"
-    run "#{sudo} apt-get install openjdk-7-jre-headless -y"
-    run "cd /tmp"
-    run "wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.1.1.deb"
-    run "#{sudo} dpkg -i elasticsearch-1.1.1.deb"
-    qq
-    run "mkdir es_servicewrapper"
-    run "curl -L http://github.com/elasticsearch/elasticsearch-servicewrapper/tarball/master | tar -xz -C es_servicewrapper --strip-components 1"
-    run "#{sudo} mv es_servicewrapper/service /usr/local/share/elasticsearch/bin/"
-    run "rm -Rf es_servicewrapper"
-    run "#{sudo} /usr/local/share/elasticsearch/bin/service/elasticsearch install"
-    run "#{sudo} ln -s `readlink -f /usr/local/share/elasticsearch/bin/service/elasticsearch` /usr/local/bin/rcelasticsearch"
+
+  desc "Elasticsearch Reindex"
+  task :reindex do
+    on roles(:app) do
+      with rails_env: fetch(:rails_env) do
+        execute :bundle, "exec rake searchkick:reindex:all"
+      end
+    end
   end
-  after "deploy:install", "elasticsearch:install"
 
   %w[start stop restart].each do |command|
     desc "#{command} elasticsearch"
-    task command, roles: :web do
-      run "#{sudo} service elasticsearch #{command}"
+    task command do
+      on roles(:app) do
+        run "#{sudo} service elasticsearch #{command}"
+      end
     end
   end
 end

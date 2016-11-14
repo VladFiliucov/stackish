@@ -17,4 +17,7 @@ every 1.day do
   runner "DailyDigestJob.perfrom_now"
 end
 
+every 1.hour do
+  runner "RAILS_ENV=production bundle exec rake searchkick:reindex:all"
+end
 # Learn more: http://github.com/javan/whenever
