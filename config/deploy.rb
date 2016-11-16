@@ -12,7 +12,7 @@ set :rvm_ruby_version, '2.3.0@stackish'
 set :passenger_restart_with_touch, true
 
 # Default value for :linked_files is []
-append :linked_files, '.env', 'config/database.yml', 'config/private_pub.yml', 'config/private_pub_thin.yml'
+append :linked_files, '.env', 'config/database.yml', 'config/private_pub.yml', 'config/private_pub_thin.yml', 'config/secrets.yml'
 
 # Default value for linked_dirs is []
 append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/system', 'public/uploads'
