@@ -33,6 +33,16 @@ module Stackish
     # config.i18n.default_locale = :de
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = {
+      :user_name => 'stackish',
+      :password => Rails.application.secrets.sendgrid_api_key,
+      :domain => '138.68.130.204',
+      :address => 'smtp.sendgrid.net',
+      :port => 587,
+      :authentication => :plain,
+      :enable_starttls_auto => true
+    }
 
     config.active_job.queue_adapter = :sidekiq
     config.active_record.raise_in_transactional_callbacks = true
