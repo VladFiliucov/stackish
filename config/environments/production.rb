@@ -1,12 +1,11 @@
 Rails.application.configure do
-  config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    :user_name => 'vladfiliucov',
+    :user_name => 'apikey',
     :password => Rails.application.secrets.sendgrid_api_key,
     :domain => '138.68.130.204',
     :address => 'smtp.sendgrid.net',
     :port => 587,
-    :authentication => :login,
+    :authentication => :plain,
     :enable_starttls_auto => true
   }
   config.action_mailer.perform_deliveries = true
