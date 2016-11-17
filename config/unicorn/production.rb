@@ -1,5 +1,5 @@
 # paths
-app_path = "/home/deployer/stackish"
+app_path = "/home/deploy/stackish"
 working_directory "#{app_path}/current"
 pid               "#{app_path}/current/tmp/pids/unicorn.pid"
 
