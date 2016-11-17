@@ -9,8 +9,6 @@ set :deploy_to, '/home/deploy/stackish'
 set :deploy_user, 'deploy'
 set :rvm_ruby_version, '2.3.0@stackish'
 
-set :passenger_restart_with_touch, true
-
 # Default value for :linked_files is []
 append :linked_files, '.env', 'config/database.yml', 'config/private_pub.yml', 'config/private_pub_thin.yml', 'config/secrets.yml'
 
@@ -20,8 +18,7 @@ append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/syst
 namespace :deploy do
   desc 'Restarting Application'
   task :restart do
-    on roles(:app), in: :sequence, wait:5 do
-      # execute :touch, release_path.join("tmp/restart.txt")
+    on roles(:app), in: :sequence, wait: 5 do
       invoke 'unicorn:restart'
     end
   end
