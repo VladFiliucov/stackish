@@ -20,11 +20,13 @@ append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/syst
 namespace :deploy do
   desc 'Restarting Application'
   task :restart do
-    on roles(:app) do
+    on roles(:app), in: :sequence, wait:5 do
       execute :touch, release_path.join("tmp/restart.txt")
+      invoke 'unicorn:restart'
     end
   end
-  after "deploy:published", "restart"
+
+  after :publishing, :restart
 
   # desc 'Restarting Sidekiq'
   # task :restart_sidekiq do
