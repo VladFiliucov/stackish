@@ -1,31 +1,32 @@
-div.card.card-block.answer-card
-  div id="answer-#{dom_id(answer)}" class="#{'best_answer' if answer.best_answer?}"
-    h4.card-title = answer.body
-    = render partial: "shared/rating", locals: {entry: answer, polymorphic_path_args: [@question, answer]}
-    = render answer.comments
-    div id="answer_#{answer.id}_comments"
-    - if current_user
-      = render 'shared/comment_form', commentable: answer, path_arguments: [answer.question, answer], id: "#answer_#{answer.id}_comment_form"
-    ul
-      - answer.attachments.each do |at|
-        div id="attachment_#{ at.id}"
-          li= link_to at.file.identifier, at.file.url
-          - if current_user && current_user.author?(answer)
-            = link_to "Delete File", attachment_path(at), method: :delete, remote: true
-    - if current_user && current_user.author?(@question)
-      - if !answer.best_answer?
-        div id="mark_best_answer#{answer.id}"
-          = link_to "Mark Best!", mark_best_question_answer_path(@question, answer), remote: true, method: :patch
-    - if current_user && current_user.author?(answer)
-      = link_to "Edit Answer", "",  class: "edit-answer-link", data: { answer_id: answer.id }
-      = simple_form_for [@question, answer], html: {  id: "edit-answer-#{answer.id}"}, remote: true do |f|
-        = f.label :body, "Edit my Answer"
-        = f.text_area :body
-        div id="answer_#{answer.id}_attachments"
-        = f.simple_fields_for :attachments do |attachment|
-          = render '/attachments/attachment_fields', f: attachment
-        .links
-          = link_to_add_association 'Attach File', f, :attachments, partial: "/attachments/attachment_fields"
-        .answer-errors
-        = f.submit "Edit"
-      = button_to 'Delete My Answer', [@question, answer], remote: true, method: :delete, class: "btn btn-danger btn-sm"
+- cache answer do
+  div.card.card-block.answer-card
+    div id="answer-#{dom_id(answer)}" class="#{'best_answer' if answer.best_answer?}"
+      h4.card-title = answer.body
+      = render partial: "shared/rating", locals: {entry: answer, polymorphic_path_args: [@question, answer]}
+      = render answer.comments
+      div id="answer_#{answer.id}_comments"
+      - if current_user
+        = render 'shared/comment_form', commentable: answer, path_arguments: [answer.question, answer], id: "#answer_#{answer.id}_comment_form"
+      ul
+        - answer.attachments.each do |at|
+          div id="attachment_#{ at.id}"
+            li= link_to at.file.identifier, at.file.url
+            - if current_user && current_user.author?(answer)
+              = link_to "Delete File", attachment_path(at), method: :delete, remote: true
+      - if current_user && current_user.author?(@question)
+        - if !answer.best_answer?
+          div id="mark_best_answer#{answer.id}"
+            = link_to "Mark Best!", mark_best_question_answer_path(@question, answer), remote: true, method: :patch
+      - if current_user && current_user.author?(answer)
+        = link_to "Edit Answer", "",  class: "edit-answer-link", data: { answer_id: answer.id }
+        = simple_form_for [@question, answer], html: {  id: "edit-answer-#{answer.id}"}, remote: true do |f|
+          = f.label :body, "Edit my Answer"
+          = f.text_area :body
+          div id="answer_#{answer.id}_attachments"
+          = f.simple_fields_for :attachments do |attachment|
+            = render '/attachments/attachment_fields', f: attachment
+          .links
+            = link_to_add_association 'Attach File', f, :attachments, partial: "/attachments/attachment_fields"
+          .answer-errors
+          = f.submit "Edit"
+        = button_to 'Delete My Answer', [@question, answer], remote: true, method: :delete, class: "btn btn-danger btn-sm"
