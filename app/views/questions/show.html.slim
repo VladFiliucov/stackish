@@ -1,24 +1,25 @@
-.show-container
-  .question-container
-    = render @question
-    div id="question_#{@question.id}_comments"
-      = render @question.comments
-      = subscribe_to "/comments"
-    - if current_user
-      .comment_form
-        = render 'shared/comment_form', commentable: @question, path_arguments: [@question], id: "question_#{@question.id}_comment_form"
+- cache @question do
+  .show-container
+    .question-container
+      = render @question
+      div id="question_#{@question.id}_comments"
+        = render @question.comments
+        = subscribe_to "/comments"
+      - if current_user
+        .comment_form
+          = render 'shared/comment_form', commentable: @question, path_arguments: [@question], id: "question_#{@question.id}_comment_form"
 
-  .answers
-    = render @answers
+    .answers
+      = render @answers
 
-= simple_form_for [@question, @answer], remote: true do |f|
-  = f.input :body, label: 'My Answer'
-  h3 Attachments:
-  #attachments
-  = f.simple_fields_for :attachments, @answer.attachments.build do |attachment|
-    = render '/attachments/attachment_fields', f: attachment
-  .links
-    = link_to_add_association 'Attach File', f, :attachments, partial: "/attachments/attachment_fields"
-  = f.submit 'Answer'
+  = simple_form_for [@question, @answer], remote: true do |f|
+    = f.input :body, label: 'My Answer'
+    h3 Attachments:
+    #attachments
+    = f.simple_fields_for :attachments, @answer.attachments.build do |attachment|
+      = render '/attachments/attachment_fields', f: attachment
+    .links
+      = link_to_add_association 'Attach File', f, :attachments, partial: "/attachments/attachment_fields"
+    = f.submit 'Answer'
 
   = subscribe_to "/question/#{@question.id}/answers"
